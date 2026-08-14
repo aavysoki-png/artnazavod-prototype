@@ -1,0 +1,30 @@
+{
+	"name": "artnazavod-prototype",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@sibur/design-system-react": "file:../../ux-rules-mcp/Components and tokens/design-system-react-main",
+		"@sibur/design-tokens": "file:../../ux-rules-mcp/Components and tokens/design-tokens-master/dist/web",
+		"leaflet": "^1.9.4",
+		"leaflet.markercluster": "^1.5.3",
+		"react": "^19.2.7",
+		"react-dom": "^19.2.7"
+	},
+	"devDependencies": {
+		"@types/leaflet": "^1.9.22",
+		"@types/leaflet.markercluster": "^1.5.6",
+		"@types/node": "^24.13.2",
+		"@types/react": "^19.2.17",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.3",
+		"sass": "^1.102.0",
+		"typescript": "~6.0.2",
+		"vite": "^8.1.1"
+	}
+}

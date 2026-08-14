@@ -1,0 +1,366 @@
+{
+  "status": "pass",
+  "url": "http://localhost:4500/",
+  "generatedAt": "2026-08-07T12:28:55.444Z",
+  "thresholds": {
+    "minSectionPadding": 40,
+    "minSectionGap": 40,
+    "minRowGap": 8,
+    "overlapTolerance": 2,
+    "minOverlapRatio": 0.1,
+    "minOccupiedRatio": 0.5,
+    "narrowMinHeight": 240,
+    "desktopMinWidth": 1024
+  },
+  "skipped": [],
+  "failures": [],
+  "viewports": [
+    {
+      "viewport": {
+        "name": "desktop-1440",
+        "width": 1440,
+        "height": 900
+      },
+      "screenshots": [
+        "desktop-1440-screen-01.png",
+        "desktop-1440-screen-02.png",
+        "desktop-1440-screen-03.png",
+        "desktop-1440-screen-04.png",
+        "desktop-1440-screen-05.png",
+        "desktop-1440-screen-06.png",
+        "desktop-1440-screen-07.png",
+        "desktop-1440-screen-08.png",
+        "desktop-1440-screen-09.png",
+        "desktop-1440-screen-10.png",
+        "desktop-1440-fullpage.png"
+      ],
+      "checks": [
+        {
+          "id": "css_vars_unresolved",
+          "severity": "error",
+          "status": "pass",
+          "message": "все обязательные var(--…) резолвятся там, где применяются (проверено 63 имён в 15 таблицах стилей)",
+          "details": [],
+          "meta": {
+            "referenced": 63,
+            "sheetsRead": 15,
+            "sheetsSkipped": 0,
+            "deadRules": 32
+          }
+        },
+        {
+          "id": "section_rhythm_collapsed",
+          "severity": "error",
+          "status": "pass",
+          "message": "вертикальный ритм есть у всех 5 секций",
+          "details": []
+        },
+        {
+          "id": "page_not_scrollable",
+          "severity": "error",
+          "status": "pass",
+          "message": "документ скроллится (7573px при вьюпорте 900px)",
+          "details": []
+        },
+        {
+          "id": "inner_scroll_container",
+          "severity": "error",
+          "status": "pass",
+          "message": "страница скроллится документом, внутренних скролл-контейнеров на высоту экрана нет",
+          "details": []
+        },
+        {
+          "id": "horizontal_overflow",
+          "severity": "error",
+          "status": "pass",
+          "message": "горизонтального скролла нет",
+          "details": []
+        },
+        {
+          "id": "interactive_overlap",
+          "severity": "error",
+          "status": "pass",
+          "message": "наложений нет (проверено 63 интерактивных элементов, 1953 пар)",
+          "details": []
+        },
+        {
+          "id": "row_gap_collapsed",
+          "severity": "error",
+          "status": "pass",
+          "message": "у горизонтальных строк ссылок есть зазоры",
+          "details": []
+        },
+        {
+          "id": "narrow_column_empty_half",
+          "severity": "error",
+          "status": "pass",
+          "message": "секции занимают ширину контейнера",
+          "details": []
+        },
+        {
+          "id": "text_block_overlap",
+          "severity": "error",
+          "status": "pass",
+          "message": "текстовые блоки не пересекаются (проверено 115)",
+          "details": []
+        },
+        {
+          "id": "icon_ligature_text",
+          "severity": "error",
+          "status": "pass",
+          "message": "иконочный шрифт загружен, лигатуры отрисованы глифами",
+          "details": []
+        },
+        {
+          "id": "failed_requests",
+          "severity": "error",
+          "status": "pass",
+          "message": "все запросы отдались",
+          "details": []
+        },
+        {
+          "id": "console_errors",
+          "severity": "error",
+          "status": "pass",
+          "message": "консоль чистая",
+          "details": []
+        }
+      ],
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "pageHeight": 7573,
+        "sections": [
+          {
+            "label": "header.dsb_header",
+            "chrome": true,
+            "top": 0,
+            "height": 65,
+            "paddingBlock": "0/0"
+          },
+          {
+            "label": "section.gallery-section «Промышленное искусство СИБУРа — »",
+            "chrome": false,
+            "top": 585,
+            "height": 500,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «35арт-объектов11городов присутст»",
+            "chrome": false,
+            "top": 1085,
+            "height": 282,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «По годамarrow_leftarrow_right202»",
+            "chrome": false,
+            "top": 1367,
+            "height": 530,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «11 городов на карте России2+− Le»",
+            "chrome": false,
+            "top": 1897,
+            "height": 822,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «Резервуары «Соседи СИБУРа»ЗСНХ (»",
+            "chrome": false,
+            "top": 2719,
+            "height": 4854,
+            "paddingBlock": "40/40"
+          }
+        ],
+        "interactiveCount": 63,
+        "cssVarsReferenced": 63,
+        "title": "АртНаЗавод — прототип",
+        "lang": "ru"
+      }
+    },
+    {
+      "viewport": {
+        "name": "mobile-390",
+        "width": 390,
+        "height": 844
+      },
+      "screenshots": [
+        "mobile-390-screen-01.png",
+        "mobile-390-screen-02.png",
+        "mobile-390-screen-03.png",
+        "mobile-390-screen-04.png",
+        "mobile-390-screen-05.png",
+        "mobile-390-screen-06.png",
+        "mobile-390-screen-07.png",
+        "mobile-390-screen-08.png",
+        "mobile-390-screen-09.png",
+        "mobile-390-screen-10.png",
+        "mobile-390-screen-11.png",
+        "mobile-390-screen-12.png",
+        "mobile-390-screen-13.png",
+        "mobile-390-screen-14.png",
+        "mobile-390-screen-15.png",
+        "mobile-390-screen-16.png",
+        "mobile-390-screen-17.png",
+        "mobile-390-screen-18.png",
+        "mobile-390-screen-19.png",
+        "mobile-390-screen-20.png",
+        "mobile-390-screen-21.png",
+        "mobile-390-screen-22.png",
+        "mobile-390-screen-23.png",
+        "mobile-390-fullpage.png"
+      ],
+      "checks": [
+        {
+          "id": "css_vars_unresolved",
+          "severity": "error",
+          "status": "pass",
+          "message": "все обязательные var(--…) резолвятся там, где применяются (проверено 63 имён в 15 таблицах стилей)",
+          "details": [],
+          "meta": {
+            "referenced": 63,
+            "sheetsRead": 15,
+            "sheetsSkipped": 0,
+            "deadRules": 32
+          }
+        },
+        {
+          "id": "section_rhythm_collapsed",
+          "severity": "error",
+          "status": "pass",
+          "message": "вертикальный ритм есть у всех 5 секций",
+          "details": []
+        },
+        {
+          "id": "page_not_scrollable",
+          "severity": "error",
+          "status": "pass",
+          "message": "документ скроллится (15975px при вьюпорте 844px)",
+          "details": []
+        },
+        {
+          "id": "inner_scroll_container",
+          "severity": "error",
+          "status": "pass",
+          "message": "страница скроллится документом, внутренних скролл-контейнеров на высоту экрана нет",
+          "details": []
+        },
+        {
+          "id": "horizontal_overflow",
+          "severity": "error",
+          "status": "pass",
+          "message": "горизонтального скролла нет",
+          "details": []
+        },
+        {
+          "id": "interactive_overlap",
+          "severity": "error",
+          "status": "pass",
+          "message": "наложений нет (проверено 58 интерактивных элементов, 1653 пар)",
+          "details": []
+        },
+        {
+          "id": "row_gap_collapsed",
+          "severity": "error",
+          "status": "pass",
+          "message": "у горизонтальных строк ссылок есть зазоры",
+          "details": []
+        },
+        {
+          "id": "narrow_column_empty_half",
+          "severity": "error",
+          "status": "skip",
+          "message": "пропущено: чек только для десктопных вьюпортов",
+          "details": []
+        },
+        {
+          "id": "text_block_overlap",
+          "severity": "error",
+          "status": "pass",
+          "message": "текстовые блоки не пересекаются (проверено 115)",
+          "details": []
+        },
+        {
+          "id": "icon_ligature_text",
+          "severity": "error",
+          "status": "pass",
+          "message": "иконочный шрифт загружен, лигатуры отрисованы глифами",
+          "details": []
+        },
+        {
+          "id": "failed_requests",
+          "severity": "error",
+          "status": "pass",
+          "message": "все запросы отдались",
+          "details": []
+        },
+        {
+          "id": "console_errors",
+          "severity": "error",
+          "status": "pass",
+          "message": "консоль чистая",
+          "details": []
+        }
+      ],
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "pageHeight": 15975,
+        "sections": [
+          {
+            "label": "header.dsb_header",
+            "chrome": true,
+            "top": 0,
+            "height": 65,
+            "paddingBlock": "0/0"
+          },
+          {
+            "label": "section.gallery-section «Промышленное искусство СИБУРа — »",
+            "chrome": false,
+            "top": 585,
+            "height": 1412,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «35арт-объектов11городов присутст»",
+            "chrome": false,
+            "top": 1997,
+            "height": 618,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «По годамarrow_leftarrow_right202»",
+            "chrome": false,
+            "top": 2615,
+            "height": 530,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «11 городов на карте России35+− L»",
+            "chrome": false,
+            "top": 3145,
+            "height": 1070,
+            "paddingBlock": "40/40"
+          },
+          {
+            "label": "section.gallery-section «Резервуары «Соседи СИБУРа»ЗСНХ (»",
+            "chrome": false,
+            "top": 4215,
+            "height": 11760,
+            "paddingBlock": "40/40"
+          }
+        ],
+        "interactiveCount": 58,
+        "cssVarsReferenced": 63,
+        "title": "АртНаЗавод — прототип",
+        "lang": "ru"
+      }
+    }
+  ]
+}

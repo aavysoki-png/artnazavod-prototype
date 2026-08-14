@@ -1,0 +1,409 @@
+{
+ "page": "home",
+ "label": "Главная",
+ "url": "https://sibur.ru/ru/",
+ "viewportId": "desktop-1440",
+ "measuredAt": "2026-08-06T13:02:41.887Z",
+ "viewport": {
+  "width": 1440,
+  "height": 900
+ },
+ "pageHeight": 900,
+ "header": {
+  "top": 0,
+  "height": 93,
+  "width": 1440
+ },
+ "footer": {
+  "top": 482,
+  "height": 418,
+  "width": 1440
+ },
+ "container": {
+  "width": 1372,
+  "marginLeft": 0
+ },
+ "typography": {
+  "h1": [
+   {
+    "text": "Партнеры для роста",
+    "fontSize": 42,
+    "lineHeight": 43.3,
+    "fontWeight": "400",
+    "letterSpacing": "-0.84px",
+    "fontFamily": "Roboto"
+   }
+  ],
+  "h2": [
+   {
+    "text": "Отраслевые решения",
+    "fontSize": 42,
+    "lineHeight": 43.3,
+    "fontWeight": "400",
+    "letterSpacing": "-0.84px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Раскрываем потенциал, чтобы делать мир лучше",
+    "fontSize": 42,
+    "lineHeight": 43.3,
+    "fontWeight": "400",
+    "letterSpacing": "-0.84px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Развитие инновационных материалов",
+    "fontSize": 36,
+    "lineHeight": 42.5,
+    "fontWeight": "600",
+    "letterSpacing": "-1.44px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Оставьте заявку",
+    "fontSize": 42,
+    "lineHeight": 43.3,
+    "fontWeight": "600",
+    "letterSpacing": "-0.84px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Оставить обратную связь",
+    "fontSize": 42,
+    "lineHeight": 43.3,
+    "fontWeight": "400",
+    "letterSpacing": "-0.84px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Подписка на новости",
+    "fontSize": 42,
+    "lineHeight": 43.3,
+    "fontWeight": "600",
+    "letterSpacing": "-0.84px",
+    "fontFamily": "Roboto"
+   }
+  ],
+  "h3": [
+   {
+    "text": "C хирургической точностью: как СИБУР и партнеры ме",
+    "fontSize": 20,
+    "lineHeight": 23.6,
+    "fontWeight": "400",
+    "letterSpacing": "-0.800001px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Vivilen: как всем выиграть от тренда на вторичную ",
+    "fontSize": 20,
+    "lineHeight": 23.6,
+    "fontWeight": "400",
+    "letterSpacing": "-0.800001px",
+    "fontFamily": "Roboto"
+   },
+   {
+    "text": "Как СИБУР помогает аграриям перейти на полимерные ",
+    "fontSize": 20,
+    "lineHeight": 23.6,
+    "fontWeight": "400",
+    "letterSpacing": "-0.800001px",
+    "fontFamily": "Roboto"
+   }
+  ],
+  "h4": [],
+  "h5": [],
+  "h6": [],
+  "body": {
+   "fontSize": 20,
+   "lineHeight": 23.6,
+   "fontFamily": "Roboto"
+  }
+ },
+ "backgroundColorsTop": [
+  {
+   "color": "rgb(255, 255, 255)",
+   "count": 44
+  },
+  {
+   "color": "rgb(108, 222, 187)",
+   "count": 23
+  },
+  {
+   "color": "rgba(242, 244, 245, 0.1)",
+   "count": 15
+  },
+  {
+   "color": "rgb(241, 242, 244)",
+   "count": 9
+  },
+  {
+   "color": "rgb(192, 193, 196)",
+   "count": 8
+  },
+  {
+   "color": "rgb(74, 81, 90)",
+   "count": 8
+  },
+  {
+   "color": "rgb(2, 129, 138)",
+   "count": 3
+  },
+  {
+   "color": "rgba(255, 255, 255, 0.1)",
+   "count": 3
+  },
+  {
+   "color": "rgb(1, 43, 52)",
+   "count": 2
+  },
+  {
+   "color": "rgb(253, 90, 66)",
+   "count": 2
+  },
+  {
+   "color": "rgb(0, 49, 60)",
+   "count": 2
+  },
+  {
+   "color": "rgba(1, 43, 52, 0.5)",
+   "count": 1
+  },
+  {
+   "color": "rgb(0, 4, 2)",
+   "count": 1
+  },
+  {
+   "color": "rgb(157, 209, 255)",
+   "count": 1
+  },
+  {
+   "color": "rgb(247, 243, 214)",
+   "count": 1
+  }
+ ],
+ "textColorsTop": [
+  {
+   "color": "rgb(0, 4, 2)",
+   "count": 8473
+  },
+  {
+   "color": "rgb(255, 255, 255)",
+   "count": 661
+  },
+  {
+   "color": "rgb(0, 49, 60)",
+   "count": 535
+  },
+  {
+   "color": "rgba(0, 49, 60, 0.6)",
+   "count": 53
+  },
+  {
+   "color": "rgb(104, 104, 104)",
+   "count": 49
+  },
+  {
+   "color": "rgb(1, 43, 52)",
+   "count": 24
+  },
+  {
+   "color": "rgb(253, 90, 66)",
+   "count": 19
+  },
+  {
+   "color": "rgb(0, 0, 0)",
+   "count": 12
+  },
+  {
+   "color": "rgb(108, 222, 187)",
+   "count": 11
+  },
+  {
+   "color": "rgba(255, 255, 255, 0.8)",
+   "count": 10
+  }
+ ],
+ "gradients": [],
+ "radii": [
+  "10px",
+  "50px",
+  "50%",
+  "12px",
+  "7px",
+  "100px",
+  "32px"
+ ],
+ "sectionGapsSample": [
+  409,
+  26,
+  13,
+  0,
+  0
+ ],
+ "cssVars": {
+  "--swiper-theme-color": "#007aff",
+  "--white": "#fff",
+  "--white-10": "hsla(0,0%,100%,.1)",
+  "--white-50": "hsla(0,0%,100%,.5)",
+  "--white-70": "hsla(0,0%,100%,.7)",
+  "--white-80": "hsla(0,0%,100%,.8)",
+  "--white-85": "hsla(0,0%,100%,.85)",
+  "--black": "#000402",
+  "--black2": "#181f25",
+  "--dark-teal": "#012b34",
+  "--sibur-dna": "#02818a",
+  "--gray": "#bcbcbc",
+  "--gray2": "#dfdfdf",
+  "--gray3": "#eee",
+  "--gray4": "#bdbdbd",
+  "--gray5": "#f4f4f4",
+  "--gray6": "#b2b2b2",
+  "--mint": "#6cdebb",
+  "--mint-80": "rgba(108,222,188,.8)",
+  "--light-mint": "#94f9da",
+  "--red": "#fd5a42",
+  "--blue": "#008dfc",
+  "--violet": "#2e3187",
+  "--paleRed": "#fc786e",
+  "--white-alt": "#ccd6d8",
+  "--color1": "#fc0d1b",
+  "--color2": "#686868",
+  "--color3": "#e6e6e6",
+  "--color4": "#b3b3b3",
+  "--color5": "#e64b38",
+  "--color6": "#c4c4c4",
+  "--color7": "#00313c",
+  "--color7-10": "rgba(0,49,60,.1)",
+  "--color7-20": "rgba(0,49,60,.2)",
+  "--color7-40": "rgba(0,49,60,.4)",
+  "--color7-60": "rgba(0,49,60,.6)",
+  "--color8": "#008c95",
+  "--color9": "#e0e4e5",
+  "--color10": "#909090",
+  "--color11": "#dedede",
+  "--color12": "#a7a7a7",
+  "--color13": "#454545",
+  "--color14": "#231f20",
+  "--color15": "#359aa1",
+  "--color16": "#f9f9f9",
+  "--color17": "#161616",
+  "--color18": "#fcfcfc",
+  "--color19": "#efefef",
+  "--menu-bg": "#073543",
+  "--colorPin1": "#525d6f",
+  "--colorPin2": "#18959c",
+  "--southWhite": "#f9f9f9",
+  "--southYellow": "#f5cb6f",
+  "--southBLue": "#009da8",
+  "--south-turquoise": "#009da8",
+  "--south-turquoise2": "#4ba6aa",
+  "--south-yellow": "#ffc94f",
+  "--south-yellow2": "#f5cb6f",
+  "--south-yellow-alt": "#ffc94f",
+  "--white-inv": "#fff",
+  "--black-inv": "#000402",
+  "--dark-teal-inv": "#012b34",
+  "--sibur-dna-inv": "#02818a",
+  "--gray-inv": "#bcbcbc",
+  "--gray2-inv": "#dfdfdf",
+  "--gray3-inv": "#eee",
+  "--gray4-inv": "#bdbdbd",
+  "--gray5-inv": "#f4f4f4",
+  "--gray6-inv": "#b2b2b2",
+  "--mint-inv": "#6cdebb",
+  "--light-mint-inv": "#94f9da",
+  "--red-inv": "#fd5a42",
+  "--blue-inv": "#008dfc",
+  "--violet-inv": "#2e3187",
+  "--paleRed-inv": "#fc786e",
+  "--white-alt-inv": "#ccd6d8",
+  "--color1-inv": "#fc0d1b",
+  "--color2-inv": "#686868",
+  "--color3-inv": "#e6e6e6",
+  "--color4-inv": "#b3b3b3",
+  "--color5-inv": "#e64b38",
+  "--color6-inv": "#c4c4c4",
+  "--color7-inv": "#00313c",
+  "--color7-10-inv": "rgba(0,49,60,.1)",
+  "--color7-20-inv": "rgba(0,49,60,.2)",
+  "--color8-inv": "#008c95",
+  "--color9-inv": "#e0e4e5",
+  "--color10-inv": "#909090",
+  "--color11-inv": "#dedede",
+  "--color12-inv": "#a7a7a7",
+  "--color13-inv": "#454545",
+  "--color14-inv": "#231f20",
+  "--color15-inv": "#359aa1",
+  "--color16-inv": "#f9f9f9",
+  "--color17-inv": "#161616",
+  "--color18-inv": "#fcfcfc",
+  "--color19-inv": "#efefef",
+  "--menu-bg-inv": "#073543",
+  "--colorPin1-inv": "#525d6f",
+  "--colorPin2-inv": "#18959c",
+  "--southWhite-inv": "#f9f9f9",
+  "--southYellow-inv": "#f5cb6f",
+  "--southBLue-inv": "#009da8",
+  "--south-turquoise-inv": "#009da8",
+  "--south-turquoise2-inv": "#4ba6aa",
+  "--south-yellow-inv": "#ffc94f",
+  "--south-yellow2-inv": "#f5cb6f",
+  "--south-yellow-alt-inv": "#ffc94f",
+  "--bg-redesign": "#f1f2f4",
+  "--bg-redesign-inv": "#f1f2f4",
+  "--redesign-1": "#f2f4f5",
+  "--redesign-1-10": "rgba(242,244,245,.1)",
+  "--redesign-1-20": "rgba(242,244,245,.2)",
+  "--redesign-2": "#e0eaeb",
+  "--redesign-2-inv": "#e0eaeb",
+  "--redesign-3": "#ebf3f3",
+  "--redesign-3-inv": "#ebf3f3",
+  "--gray-1-redesign": "#e6e9ea",
+  "--gray-2-redesign": "#4a515a",
+  "--gray-3-redesign": "#c0c1c4",
+  "--emerald": "#009696",
+  "--emerald-inv": "#009696",
+  "--emerald-light": "#41a7af",
+  "--emerald-dark": "#007474",
+  "--emerald-dark-inv": "#007474",
+  "--terracotta": "#b15236",
+  "--terracotta-inv": "#b15236",
+  "--light-blue": "#48aad0",
+  "--anthracite": "#54565a",
+  "--anthracite-inv": "#54565a",
+  "--anthracite-10": "rgba(84,86,90,.1)",
+  "--anthracite-20": "rgba(84,86,90,.2)",
+  "--anthracite-30": "rgba(84,86,90,.3)",
+  "--anthracite-50": "rgba(84,86,90,.5)",
+  "--anthracite-60": "rgba(84,86,90,.6)",
+  "--gradient-1": "linear-gradient(0deg,#44a8b1,#009696 50%,#007474)",
+  "--gradient-2": "linear-gradient(0deg,#d57550,#b15236 50%,#7c361e)",
+  "--gradient-3": "linear-gradient(0deg,#65bbe9,#48aad0 50%,#34819e)",
+  "--header-height-mobile": "104px",
+  "--sandwich-padding-top": "8.0555555556vw",
+  "--sandwich-padding-left": "2.3611111111vw",
+  "--sandwich-padding-right": "3.2638888889vw",
+  "--section-pad-bottom": "50px",
+  "--offset-140": "104px",
+  "--offset-80": "60px",
+  "--offset-72": "52px",
+  "--offset-60": "44px",
+  "--offset-52": "32px",
+  "--offset-40": "32px",
+  "--offset-32": "24px",
+  "--offset-24": "20px",
+  "--offset-20": "18px",
+  "--offset-16": "16px",
+  "--offset-12": "8px",
+  "--offset-8": "8px",
+  "--offset-4": "4px",
+  "--main-card": "16px",
+  "--big-card": "32px",
+  "--banner": "52px",
+  "--gutter": "16px",
+  "--margin": "34px",
+  "--small-card": "12px",
+  "--tag-rad": "33px",
+  "--corner-big-card": "12px"
+ }
+}

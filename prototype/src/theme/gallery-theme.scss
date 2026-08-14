@@ -1,0 +1,796 @@
+// Тема архетипа `embedded_gallery` — MCP DS TOOL/claude-landing-pipeline/
+// docs/brand/sibur-marketing-expression-kit.md, Recipe: Embedded Photo
+// Gallery (задача 32 доски tasks.md). Namespace `--gallery-*` НЕ
+// пересекается с продуктовыми токенами DS (`--color-*`, `--font-*`,
+// `--size-*`) — это оверлей поверх них, продуктовые токены нигде не
+// переопределяются.
+.gallery-theme {
+	// fallback-литерал: измерено на sibur.ru (задача 30), не токен DS
+	--gallery-surface-bg: #f1f2f4;
+
+	// ОФИЦИАЛЬНЫЙ акцент брендбука (Figma Sibur_BB, релиз 2.1, 10-2025) —
+	// не fallback: RGB 224|78|57, Pantone 172C, RAL 2009, подписан
+	// «ЯРКО-ОРАНЖЕВЫЙ», применяется для того же случая, что и здесь —
+	// выделение слов/цифр в заголовке. Живой sibur.ru применяет другое
+	// значение (#FD5A42) — сайт отстаёт от свежего релиза брендбука, не
+	// наоборот: подтверждено тем, что RGB брендбука для ДНК Сибур (0|140|149)
+	// совпадает с DS-токеном `--color-background-brand` буквально.
+	--gallery-accent-warm: #e04e39;
+
+	// fallback-литерал: дисплейный трекинг подтверждён и живым sibur.ru, и
+	// обложкой самого брендбука (letterSpacing: -0.02em) — DS даёт
+	// положительный letter-spacing для h1/h2.
+	--gallery-heading-tracking: -0.02em;
+
+	// fallback-литерал: сайт использует пилюльные CTA (50–100px), шкала DS
+	// кончается на --size-border-radius-x15 (30px) — не ступень шкалы, а флаг.
+	--gallery-radius-pill: 999px;
+
+	// измеренная ширина контентной колонки sibur.ru — три страницы, три
+	// брейкпоинта дали одно и то же число на десктопе (задача 30).
+	--gallery-container-width: 1372px;
+
+	background: var(--gallery-surface-bg);
+}
+
+// Общий контейнер секции — единая максимальная ширина и поля по всей
+// странице, чтобы визуально совпадать с колонкой контента sibur.ru.
+.gallery-container {
+	width: 100%;
+	max-width: var(--gallery-container-width);
+	margin-inline: auto;
+	padding-inline: var(--size-spacing-x8);
+	box-sizing: border-box;
+}
+
+.gallery-section {
+	padding-block: var(--size-spacing-x10);
+}
+
+// Точечное слово тёплого акцента внутри заголовка — не заливка блока, ровно
+// как #E04E39 задан брендбуком и как применяется live-паттерн на sibur.ru
+// (класс .red на span внутри заголовка).
+.gallery-accent {
+	color: var(--gallery-accent-warm);
+}
+
+// Отдельный (не «warm») акцент — конкретно для «галерея под открытым
+// небом» в «О проекте», по прямому решению пользователя, 2026-08-07:
+// rgb(0,140,149) — ровно существующий брендовый токен ДНК Сибур, не новый
+// литерал. `.gallery-accent` (тёплый) не трогаем — им пользуются History/
+// Process независимо от этого решения.
+.gallery-accent-brand {
+	color: var(--color-background-brand);
+}
+
+// Дисплейный трекинг для крупных заголовков архетипа — оверлей на
+// Typography, не трогает сам DS-токен --font-letter-spacing-h1/h2.
+.gallery-display-tracking {
+	letter-spacing: var(--gallery-heading-tracking);
+}
+
+.gallery-pill {
+	border-radius: var(--gallery-radius-pill) !important;
+}
+
+// Пилюля-кнопка (список городов под картой) — реальный переход к первому
+// объекту города в плитке ниже, не декоративная метка. Явная аффорданс-
+// стилистика (стрелка, hover, focus-ring), чтобы читалось как интерактив.
+.gallery-pill--clickable {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-spacing-x2);
+	padding: 6px 16px;
+	background: var(--color-background-secondary);
+	border: 1px solid var(--color-border);
+	cursor: pointer;
+	appearance: none;
+	font: inherit;
+	color: inherit;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
+}
+
+.gallery-pill--clickable:hover {
+	background: var(--color-background-brand);
+	border-color: var(--color-background-brand);
+	color: var(--color-text-white-inverse);
+}
+
+.gallery-pill--clickable:focus-visible {
+	outline: 2px solid var(--color-background-brand);
+	outline-offset: 2px;
+}
+
+// ---------- Первый экран ----------
+
+.gallery-hero {
+	position: relative;
+	min-height: 520px;
+	display: flex;
+	// Логотип у верхнего края — на видео-подложке он терялся внизу (мало
+	// контента после переноса слогана в «О проекте»).
+	align-items: flex-start;
+	overflow: hidden;
+	// section_rhythm_collapsed гейта не срабатывает: зазор до следующей
+	// секции (профиль embedded_gallery, --set minSectionGap=40) компенсирует
+	// нулевой internal padding у самого медиа-слоя.
+	padding: 0;
+}
+
+.gallery-hero__media {
+	position: absolute;
+	inset: 0;
+}
+
+// Видеоряд первого экрана (14.08.2026, заменил фото-заглушку «Батискафа»):
+// реальные видео заказчика, `object-fit: cover` — то же поведение
+// full-bleed фона, что раньше давал `background: url() center/cover`.
+// Один смонтированный `<video>` за раз (не все три сразу): переключение
+// меняет `src` через `key` в HeroSection.tsx, а не слоями друг на друга —
+// исходники по 250-450 МБ, держать все три в DOM одновременно — браузер
+// начнёт буферизовать все сразу.
+.gallery-hero__video {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.gallery-hero__scrim {
+	position: absolute;
+	inset: 0;
+	// Затемнение снизу для читаемости текста поверх видео — тот же приём,
+	// что у карточек листинга sibur.ru (градиентная подложка под подписью).
+	background: linear-gradient(to top, rgba(0, 4, 2, 0.72) 0%, rgba(0, 4, 2, 0) 55%);
+}
+
+// Переключение между видео — тот же паттерн, что у `.gallery-card__media-nav`
+// в карусели объекта (см. ниже), только на всю высоту героя, а не 520px
+// карточки. `z-index` не нужен: кнопки идут в DOM позже, чем media/scrim
+// (оба без своего z-index), и уже поэтому выше в стеке.
+.gallery-hero__nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	opacity: 0.55;
+	transition: opacity 0.15s ease;
+}
+
+.gallery-hero__nav:hover,
+.gallery-hero__nav:focus-visible {
+	opacity: 1;
+}
+
+.gallery-hero__nav--prev {
+	left: var(--size-spacing-x4);
+}
+
+.gallery-hero__nav--next {
+	right: var(--size-spacing-x4);
+}
+
+.gallery-hero__content {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	padding-block: var(--size-spacing-x10);
+}
+
+// Логотип проекта (предоставлен заказчиком), без подложки — по явному
+// решению пользователя (2026-08-07).
+.gallery-hero__logo {
+	display: block;
+	height: 150px;
+	width: auto;
+	// Родительский `Stack` (direction="vertical") растягивает детей по
+	// ширине по умолчанию (`align-items: stretch`) — без этого `width: auto`
+	// у img всё равно тянется на 100% ширины колонки, ломая пропорции.
+	align-self: flex-start;
+}
+
+.gallery-hero__slogan {
+	max-width: 720px;
+}
+
+.gallery-hero__stats {
+	margin-top: var(--size-spacing-x6);
+	flex-wrap: wrap;
+}
+
+// Значение показателя может быть длинным текстом («2022–2026»), а не только
+// коротким числом — без переноса оно уходит за пределы своей колонки грида
+// (grid-cell не обрезает overflow сам по себе), что на узких вьюпортах даёт
+// горизонтальный оверфлоу страницы. Проверено на 390px (задача 33).
+.gallery-text-wrap {
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
+// Селектор с двумя классами (специфичность 0,2,0) осознанно бьёт
+// `.dsb_grid__columns-N` компонента (0,1,0) независимо от порядка
+// подключения стилей — не полагаемся на то, что тема Vite соберёт CSS после
+// стилей самого Grid.
+@media (max-width: 900px) {
+	.gallery-stats__grid.dsb_grid__columns-4,
+	.gallery-process__grid.dsb_grid__columns-4 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 480px) {
+	.gallery-process__grid.dsb_grid__columns-4 {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Карточки показателей — тот же приём, что в бенто-сетке sibur.ru (задача
+// 30): разноцветные плашки, не однотонный список чисел. Цвета — только
+// существующие токены/градиент бренда, ничего не изобретено заново.
+.gallery-stat-card {
+	border-radius: var(--size-border-radius-x8);
+	padding: var(--size-spacing-x6);
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.gallery-stat-card--teal {
+	background: var(--color-background-brand);
+}
+
+.gallery-stat-card--warm {
+	background: var(--gallery-accent-warm);
+}
+
+.gallery-stat-card--light {
+	background: var(--color-background-secondary);
+}
+
+.gallery-stat-card--gradient {
+	background: var(--color-gradient-mint-linear);
+}
+
+// Компактный вариант — три карточки на первом экране поверх фото, места
+// меньше, чем у полной секции показателей ниже. Фиксированная ширина, а не
+// растяжение на треть контейнера (было слишком широко) — все три карточки
+// одинаковые, ширина взята по самому длинному значению («2022–2026»), чтобы
+// оно не переносилось на второй ряд.
+.gallery-stat-card--compact {
+	padding: var(--size-spacing-x4);
+	width: 290px;
+	flex: none;
+}
+
+.gallery-city-counts.dsb_grid__columns-3 {
+	width: 100%;
+}
+
+@media (max-width: 900px) {
+	.gallery-city-counts.dsb_grid__columns-3 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 480px) {
+	.gallery-city-counts.dsb_grid__columns-3 {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 700px) {
+	.gallery-about__grid.dsb_grid__columns-2 {
+		grid-template-columns: 1fr;
+	}
+}
+
+.gallery-about__logo {
+	display: block;
+	height: 160px;
+	width: auto;
+	flex: none;
+}
+
+@media (max-width: 600px) {
+	.gallery-about__heading {
+		flex-wrap: wrap;
+	}
+	.gallery-about__logo {
+		height: 64px;
+	}
+}
+
+.gallery-authorship-card {
+	border: 1px solid var(--color-border);
+	border-radius: var(--size-border-radius-x6);
+	padding: var(--size-spacing-x4);
+	height: 100%;
+	box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+	.gallery-authorship__grid.dsb_grid__columns-3 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 480px) {
+	.gallery-authorship__grid.dsb_grid__columns-3 {
+		grid-template-columns: 1fr;
+	}
+}
+
+.gallery-hero__cta {
+	margin-top: var(--size-spacing-x6);
+}
+
+// ---------- История проекта (полоса по годам) ----------
+
+.gallery-history__wrap {
+	position: relative;
+}
+
+.gallery-history__track {
+	display: flex;
+	gap: var(--size-spacing-x6);
+	overflow-x: auto;
+	padding-bottom: var(--size-spacing-x4);
+	// Внутри max-width контейнера трек может быть шире контента — тянется
+	// вправо за счёт горизонтального скролла, не вертикального (ТЗ явно
+	// требует, чтобы карта — и вообще ничего в макете — не блокировала
+	// вертикальный скролл страницы).
+	scroll-snap-type: x proximity;
+
+	// Нативный скроллбар ОС (особенно оверлейный на macOS) визуально почти
+	// незаметен — сам факт «тут можно скроллить горизонтально» не читается
+	// без явной подсказки. Делаем скроллбар всегда видимым и брендовым.
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-background-brand) transparent;
+
+	&::-webkit-scrollbar {
+		height: 6px;
+	}
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: var(--color-background-brand);
+		border-radius: var(--size-border-radius-x4);
+	}
+}
+
+// Градиентная подсказка у правого края — сигнализирует, что контент
+// продолжается за пределами видимой области, до того как пользователь
+// вообще тронул скролл (плюс текстовая подсказка под лентой в разметке).
+.gallery-history__fade {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: var(--size-spacing-x4);
+	width: 48px;
+	pointer-events: none;
+	background: linear-gradient(to right, transparent, var(--gallery-surface-bg));
+}
+
+// Полоска-таймлайн между годом и списком объектов — ОДНА сплошная линия на
+// всю ширину прокручиваемого контента (не на каждую карточку по отдельности,
+// иначе на стыках между карточками остаются разрывы равные `gap` трека).
+// Ширина считается в JS от реального `scrollWidth` трека (см.
+// `HistorySection.tsx`) и лежит внутри `.gallery-history__track`, поэтому
+// скроллится вместе с карточками, а не остаётся на месте.
+.gallery-history__track {
+	position: relative;
+}
+
+.gallery-history__axis {
+	position: absolute;
+	left: 0;
+	// `top` приходит инлайн-стилем из React (реальный центр первой строки с
+	// точкой, см. `HistorySection.tsx`) — здесь только фолбэк на случай,
+	// если JS ещё не отмерил (первый кадр до layout-эффекта).
+	top: 66px;
+	height: 2px;
+	transform: translateY(-50%);
+	background: var(--gallery-accent-warm);
+	pointer-events: none;
+}
+
+.gallery-history__dot-row {
+	position: relative;
+	height: 20px;
+	margin: var(--size-spacing-x3) 0 var(--size-spacing-x4);
+}
+
+.gallery-history__dot {
+	position: absolute;
+	// Флаш с левым краем карточки года, не сдвинута в отрицательную область —
+	// первый год иначе теряет часть точки (трек не может проскроллить в
+	// минус, а `scroll-snap` игнорирует запасное padding-left).
+	left: 0;
+	// Центр точки всегда на середине своей строки — не завязано на
+	// конкретный размер точки/шрифта, переживёт любое изменение width/height.
+	top: 50%;
+	transform: translateY(-50%);
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--gallery-accent-warm);
+	// Ось проходит ПОД точками (одинаковый z-index по умолчанию, но точка
+	// идёт позже в DOM внутри своей карточки, а ось — раньше в треке) —
+	// точка не должна теряться на линии её же цвета.
+	border: 2px solid var(--gallery-surface-bg);
+}
+
+.gallery-history__year {
+	flex: none;
+	width: 260px;
+	scroll-snap-align: start;
+}
+
+// ---------- Карта (Leaflet + OpenStreetMap) ----------
+
+.gallery-map {
+	position: relative;
+	border-radius: var(--size-border-radius-x8);
+	overflow: hidden;
+	min-height: 550px;
+}
+
+.gallery-map__leaflet {
+	width: 100%;
+	height: 550px;
+	// Монохромная подложка — требование ТЗ («используется монохромный плагин
+	// Яндекс.Карт»). Тайлы OSM цветные по умолчанию — обесцвечиваем фильтром,
+	// тот же визуальный эффект, другой поставщик тайлов (см. комментарий в
+	// MapSection.tsx).
+	filter: grayscale(1) contrast(1.05);
+}
+
+// Индикатор загрузки тайлов — поверх серого фона Leaflet, пока не пришло
+// событие `load` (см. MapSection.tsx). pointer-events:none — не мешает
+// перетаскивать карту, пока она частично прогружена.
+.gallery-map__loading {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(228, 232, 233, 0.6);
+	pointer-events: none;
+}
+
+// Всплывающее окно Leaflet рендерится вне React-дерева (через свой DOM),
+// поэтому стилизуется глобальным селектором, не CSS-модулем компонента.
+.gallery-map__popup {
+	font-family: var(--font-family-system);
+
+	strong {
+		display: block;
+		margin-bottom: var(--size-spacing-x2);
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li + li {
+		margin-top: var(--size-spacing-x1);
+	}
+
+	a {
+		color: var(--color-background-brand);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+}
+
+// ---------- Плитка объектов + Inline Expansion ----------
+
+.gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--size-spacing-x6);
+	// Без этого карточки в одном ряду растягиваются по умолчанию
+	// (`align-items: stretch`) до высоты самой высокой (у длинных
+	// трёхстрочных заголовков) — реальный баг, найденный пользователем:
+	// фото у соседних карточек с коротким заголовком сдвигалось на
+	// несколько пикселей вниз относительно верхнего края карточки.
+	align-items: start;
+}
+
+@media (max-width: 900px) {
+	.gallery-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.gallery-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.gallery-card {
+	// Сброс нативного вида <button> — карточка не должна выглядеть как
+	// системная кнопка, только вести себя как она (клавиатура, фокус).
+	appearance: none;
+	border: none;
+	background: none;
+	font: inherit;
+	text-align: left;
+	padding: 0;
+	width: 100%;
+	display: block;
+
+	cursor: pointer;
+	transition: transform 0.15s ease;
+}
+
+.gallery-card:focus-visible {
+	// Не `--color-border-focus` (реально тёмно-серый, не брендовый) — здесь
+	// сознательно берём брендовый тил, тот же токен, что и акцентный градиент.
+	outline: 2px solid var(--color-background-brand);
+	outline-offset: 4px;
+	border-radius: var(--size-border-radius-x4);
+}
+
+.gallery-card:hover {
+	transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.gallery-card {
+		transition: none;
+	}
+	.gallery-card:hover {
+		transform: none;
+	}
+}
+
+.gallery-card__media {
+	aspect-ratio: 4 / 3;
+	border-radius: var(--size-border-radius-x6);
+	overflow: hidden;
+	background: var(--color-gradient-mint-linear);
+	width: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+// Раскрытая карточка — на всю ширину плитки, замещает саму сетку в потоке
+// (span все колонки), а не всплывает поверх содержимого. Это и есть Inline
+// Expansion из ТЗ: «выбранная карточка раскрывается в рамках текущей
+// страницы… остальные карточки автоматически смещаются ниже» — то есть чисто
+// document-flow эффект, без position:fixed/portal/z-index трюков.
+.gallery-card--expanded {
+	grid-column: 1 / -1;
+	cursor: default;
+}
+
+.gallery-card--expanded:hover {
+	transform: none;
+}
+
+// Кнопка сворачивания — отдельной строкой НАД фото, не поверх него (по
+// решению пользователя, 2026-08-07): не нужен overlay-контраст, обычная
+// плоская кнопка на фоне страницы.
+.gallery-card__media-header {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: var(--size-spacing-x2);
+}
+
+.gallery-card__expanded-media-wrap {
+	position: relative;
+	// Full-bleed: карусель должна открываться на всю ширину экрана, не
+	// упираться в колонку контента (по решению пользователя, 2026-08-07) —
+	// классический приём выхода за пределы constrained-родителя.
+	width: 100vw;
+	margin-inline: calc(50% - 50vw);
+}
+
+// Карусель «по образцу заказчика»: центральный слайд виден целиком, соседние
+// частично видны по бокам и обрезаны краем экрана — эффект даёт сам
+// `overflow-x`, никаких масок/градиентов не нужно. Высота фиксированная,
+// ширина каждого слайда — по контенту (см. `.gallery-card__carousel-media`),
+// поэтому фото и видео разной пропорции не деформируются и не обрастают
+// серыми полями (от этого явно отказались, 2026-08-07).
+.gallery-card__carousel {
+	display: flex;
+	align-items: center;
+	gap: var(--size-spacing-x4);
+	height: 520px;
+	// Ширина в точности равна вьюпорту (не 100%, чтобы не зависеть от
+	// ширины full-bleed родителя, которая сама посчитана от vw — двойная
+	// косвенность через проценты и раньше давала ложный `clientWidth`).
+	width: 100vw;
+	// Явно, не полагаясь на глобальный `*{box-sizing:border-box}` — в prod-
+	// сборке (не в dev) он почему-то не доставал сюда через порядок склейки
+	// CSS у Vite, из-за чего `padding-inline:50%` СКЛАДЫВАЛСЯ с шириной
+	// (content-box), а не входил в неё — реальный найденный баг, ширина
+	// карусели буквально удваивалась (2880px при вьюпорте 1440px).
+	box-sizing: border-box;
+	overflow-x: auto;
+	// Скроллит программно (см. эффект центрирования в ObjectCard.tsx) — сам
+	// скроллбар не нужен, свайп на тачскрине при этом продолжает работать.
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	// Отступы по краям — без них первый/последний слайд физически не может
+	// доскроллить до центра контейнера (упирается в собственную границу).
+	padding-inline: 50%;
+}
+
+@media (max-width: 900px) {
+	.gallery-card__carousel {
+		height: 360px;
+	}
+}
+
+@media (max-width: 600px) {
+	.gallery-card__carousel {
+		height: 260px;
+	}
+}
+
+.gallery-card__carousel-item {
+	flex: none;
+	height: 100%;
+	// Смещение к центру пересчитывает эффект в ObjectCard.tsx через
+	// offsetLeft/offsetWidth — эти свойства требуют обычного потока, поэтому
+	// сдвиг контейнера через padding-inline:50%, а не через transform.
+	opacity: 0.45;
+	transition: opacity 0.2s ease;
+}
+
+.gallery-card__carousel-item--active {
+	opacity: 1;
+}
+
+.gallery-card__carousel-media {
+	height: 100%;
+	width: auto;
+	max-width: none;
+	display: block;
+	border-radius: var(--size-border-radius-x8);
+	object-fit: cover;
+}
+
+// Активный слайд — ровно ширина контентной колонки (та же формула, что даёт
+// ширину `.gallery-container`: min(вьюпорт, --gallery-container-width) минус
+// её собственные боковые паддинги), а не произвольная ширина по пропорциям
+// фото. Соседние (неактивные) слайды остаются на своей естественной ширине и
+// поэтому выходят за пределы контентной колонки в full-bleed зону — по
+// решению пользователя, 2026-08-07. Видео из этого правила исключено
+// отдельно (`:not(--video)`) — оно всегда своей ширины, даже активным
+// (решение пользователя, той же датой): растягивать/обрезать видео под
+// колонку — то самое искажение, от которого раньше отказались.
+.gallery-card__carousel-item--active .gallery-card__carousel-media:not(.gallery-card__carousel-media--video) {
+	width: calc(min(100vw, var(--gallery-container-width)) - (var(--size-spacing-x8) * 2));
+}
+
+.gallery-card__carousel-media--placeholder {
+	width: 360px;
+	background: var(--color-gradient-mint-radial);
+}
+
+// Видео/фото не отдалось (сеть, 404) — честное сообщение вместо битой
+// иконки браузера, тех же пропорций, что и плейсхолдер.
+.gallery-card__carousel-media--error {
+	width: 360px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--size-spacing-x2);
+	background: #4a4a4a;
+	color: var(--color-text-light-inactive);
+	padding-inline: var(--size-spacing-x4);
+	text-align: center;
+}
+
+// Явное управление переключением между фото/видео — стрелки поверх левого и
+// правого края медиа. Приглушены по умолчанию (не спорят по яркости с самим
+// фото) и набирают полную контрастность на hover/focus — по решению
+// пользователя, «избыточно акцентные» в исходном виде.
+.gallery-card__media-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	opacity: 0.55;
+	transition: opacity 0.15s ease;
+}
+
+.gallery-card__media-nav:hover,
+.gallery-card__media-nav:focus-visible {
+	opacity: 1;
+}
+
+.gallery-card__media-nav--prev {
+	left: var(--size-spacing-x4);
+}
+
+.gallery-card__media-nav--next {
+	right: var(--size-spacing-x4);
+}
+
+.gallery-card__expanded-body {
+	margin-top: var(--size-spacing-x6);
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: var(--size-spacing-x8);
+}
+
+@media (max-width: 900px) {
+	.gallery-card__expanded-body {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Превью — первой строкой сразу под открытым фото/видео, не в конце текста
+// (по прямому решению пользователя, 2026-08-07): клик переключает главный
+// просмотр, как таб-панель.
+.gallery-card__thumbs {
+	display: flex;
+	gap: var(--size-spacing-x2);
+	margin-top: var(--size-spacing-x4);
+	flex-wrap: wrap;
+}
+
+.gallery-card__thumb-button {
+	position: relative;
+	appearance: none;
+	border: 2px solid transparent;
+	background: none;
+	padding: 0;
+	border-radius: var(--size-border-radius-x4);
+	cursor: pointer;
+	flex: none;
+	line-height: 0;
+}
+
+.gallery-card__thumb-button--active {
+	border-color: var(--color-background-brand);
+}
+
+.gallery-card__thumb-button:focus-visible {
+	outline: 2px solid var(--color-background-brand);
+	outline-offset: 2px;
+}
+
+.gallery-card__thumb {
+	width: 72px;
+	height: 54px;
+	border-radius: var(--size-border-radius-x3);
+	background: var(--color-gradient-mint-linear);
+	object-fit: cover;
+	display: block;
+}
+
+// Та же логика, что у основного просмотра видео: целиком по высоте, серые
+// поля по бокам вместо обрезки/растяжения кадра под чужие пропорции.
+.gallery-card__thumb--video {
+	object-fit: contain;
+	background: #4a4a4a;
+}
+
+// Значок «плей» поверх превью видео — иначе видео-превью неотличимо от фото
+// до клика.
+.gallery-card__thumb-play {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-text-white-inverse);
+	background: rgba(0, 0, 0, 0.28);
+	border-radius: var(--size-border-radius-x3);
+	pointer-events: none;
+}

@@ -1,0 +1,25 @@
+# Исходные материалы заказчика — внутренние, наружу не публикуются
+# (см. CLAUDE.md, раздел «Материалы»). Реестр (registry.json/REGISTRY.md)
+# в это ограничение НЕ входит — включён в репозиторий осознанно.
+/Промышленное_искусство_сводная_*.pptx
+/Техническое_задание_*.docx
+/content/
+/extraction/previews/
+/extraction/slides_raw.json
+
+# Реальные фото объектов с photo.sibur.ru — права на публикацию вне
+# фотобанка не подтверждены заказчиком (открытый вопрос, задача 34, п.5).
+/prototype/public/photos/
+
+# Видео заказчика для первого экрана (14.08.2026) — те же исходники, что
+# в /content/ (958 МБ суммарно), и всё равно упёрлись бы в лимит GitHub
+# 100 МБ на файл без Git LFS.
+/prototype/public/hero/
+
+# Node / сборка
+node_modules/
+/prototype/dist/
+/prototype/dist-singlefile/
+*.tsbuildinfo
+
+.DS_Store
