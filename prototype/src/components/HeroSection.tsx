@@ -1,22 +1,23 @@
 import { useState } from 'react';
-import { Header, IconButton } from '@sibur/design-system-react';
+import { IconButton } from '@sibur/design-system-react';
 import { Icons } from '@sibur/design-tokens/js/iconfont';
 
 /**
- * Реальные видео заказчика (14.08.2026) — заменили фото-заглушку
- * «Батискафа». Файлы лежат вне git-трекинга прототипа (`public/hero/`,
- * тот же принцип, что у `public/media/demo-*`), исходники — в
- * `Pilot-sibur-landing-Mural/content/`, скопированы сюда без пережатия
- * (ffmpeg на машине не было). Порядок — не смысловая последовательность,
- * а порядок файлов, которые дал пользователь.
+ * Финальная хиро-нарезка заказчика (2026-08-20, папка «___НАРЕЗКА для
+ * шапки»), транскодирована `scripts/prepare-final-media.mjs` (сырые дампы
+ * с камер/дронов пережаты под веб — H.264 ≤1080p). Файлы лежат вне
+ * git-трекинга прототипа (`public/hero/`, см. `.gitignore`). Порядок — не
+ * смысловая последовательность, а порядок файлов в исходной папке.
  */
-const HERO_VIDEOS: readonly string[] = ['/hero/tnh-shishka.mp4', '/hero/sosedi-sibura.mp4', '/hero/sibur-color.mov'];
+const HERO_VIDEOS: readonly string[] = ['/hero/hero-1.mp4', '/hero/hero-2.mp4', '/hero/hero-3.mp4', '/hero/hero-4.mp4', '/hero/hero-5.mp4', '/hero/hero-6.mp4'];
 
 /**
  * Первый экран (ТЗ, п.7): «Полноэкранная фотография, логотип проекта,
- * название, слоган, ключевые показатели». Логотип проекта временно скрыт на
- * видео-заглушке по решению пользователя (2026-08-07) — сам логотип теперь
- * стоит рядом с заголовком в «О проекте», здесь остаётся просто видеоряд.
+ * название, слоган, ключевые показатели». Логотип проекта — рядом с
+ * заголовком в «О проекте», здесь просто видеоряд. Шапки сайта (`<Header>`
+ * из DS) здесь нет и не будет (2026-08-20) — раздел встраивается в уже
+ * существующий sibur.ru, у которого своя шапка; здесь дублирующая была бы
+ * лишней.
  *
  * Один `<video>` в моменте, не три слоем друг на друге — исходники по
  * 250-450 МБ, `key={src}` форсирует React пересоздать элемент при смене
@@ -36,42 +37,38 @@ export function HeroSection() {
 	const goTo = (index: number): void => setActiveVideo(((index % HERO_VIDEOS.length) + HERO_VIDEOS.length) % HERO_VIDEOS.length);
 
 	return (
-		<>
-			<Header nameLogo="logoThemeable" />
-
-			<div className="gallery-hero">
-				<div className="gallery-hero__media" aria-hidden="true">
-					<video
-						key={HERO_VIDEOS[activeVideo]}
-						className="gallery-hero__video"
-						src={HERO_VIDEOS[activeVideo]}
-						muted
-						autoPlay
-						playsInline
-						onEnded={() => goTo(activeVideo + 1)}
-					/>
-				</div>
-				<div className="gallery-hero__scrim" aria-hidden="true" />
-
-				{HERO_VIDEOS.length > 1 ? (
-					<>
-						<IconButton
-							variant="overlay"
-							iconName={Icons.NavArrowLeft}
-							aria-label="Предыдущее видео"
-							className="gallery-hero__nav gallery-hero__nav--prev"
-							onClick={() => goTo(activeVideo - 1)}
-						/>
-						<IconButton
-							variant="overlay"
-							iconName={Icons.NavArrowRight}
-							aria-label="Следующее видео"
-							className="gallery-hero__nav gallery-hero__nav--next"
-							onClick={() => goTo(activeVideo + 1)}
-						/>
-					</>
-				) : null}
+		<div className="gallery-hero">
+			<div className="gallery-hero__media" aria-hidden="true">
+				<video
+					key={HERO_VIDEOS[activeVideo]}
+					className="gallery-hero__video"
+					src={HERO_VIDEOS[activeVideo]}
+					muted
+					autoPlay
+					playsInline
+					onEnded={() => goTo(activeVideo + 1)}
+				/>
 			</div>
-		</>
+			<div className="gallery-hero__scrim" aria-hidden="true" />
+
+			{HERO_VIDEOS.length > 1 ? (
+				<>
+					<IconButton
+						variant="overlay"
+						iconName={Icons.NavArrowLeft}
+						aria-label="Предыдущее видео"
+						className="gallery-hero__nav gallery-hero__nav--prev"
+						onClick={() => goTo(activeVideo - 1)}
+					/>
+					<IconButton
+						variant="overlay"
+						iconName={Icons.NavArrowRight}
+						aria-label="Следующее видео"
+						className="gallery-hero__nav gallery-hero__nav--next"
+						onClick={() => goTo(activeVideo + 1)}
+					/>
+				</>
+			) : null}
+		</div>
 	);
 }

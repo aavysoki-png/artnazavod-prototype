@@ -1,21 +1,28 @@
-// Пост-обработка обычного `npm run build`: собирает ОДИН самодостаточный
-// HTML-файл — JS/CSS инлайнятся тегами, все локальные ассеты (фото/видео/
-// шрифты/логотип), на которые есть ссылки в HTML/CSS/JS, переводятся в
-// base64 data:-URI. Цель — открыть двойным кликом в любом браузере без
-// сервера (обычный `file://` блокирует ES-модули и `<link>` по CORS, но не
-// блокирует инлайновые <script>/<style> и data:-URI).
+// Пост-обработка обычного `npm run build`: собирает пакет передачи —
+// HTML с инлайненными JS/CSS/фото (base64 data:-URI) + папки `media/`,
+// `hero/` РЯДОМ с ним (относительные пути, без инлайна). Раньше это был
+// ровно один файл, но с финальной фактурой заказчика (2026-08-20) видео
+// объектов+хиро выросли до сотен МБ даже сжатыми — base64 (+33% к размеру)
+// в одном HTML-файле для видео такого объёма нежизнеспособен, браузеры
+// плохо тянут гигантские data:-URI video. Компромисс: маленькая папка,
+// которую так же просто зазипить и отправить коллеге, а фото (уже
+// компактные после `prepare-final-media.mjs`) по-прежнему инлайнятся —
+// открыть index.html двойным кликом всё ещё можно (обычный `file://`
+// блокирует ES-модули и `<link>` по CORS, но не блокирует инлайновые
+// <script>/<style>, data:-URI и относительные <video src="media/...">).
 //
 // Не часть обычного dev/build-цикла — отдельная команда для конкретной
 // задачи передачи: посмотреть прототип «как есть», без доступа к DS-пакетам
 // и без сервера. Реальный dev/build (`npm run dev`/`npm run build`) этот
 // скрипт не трогает и не заменяет.
-import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync, cpSync, rmSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
-const outFile = join(__dirname, '..', 'dist-singlefile', 'АртНаЗавод-прототип.html');
+const outDir = join(__dirname, '..', 'dist-singlefile', 'АртНаЗавод-прототип');
+const outFile = join(outDir, 'index.html');
 
 const MIME_BY_EXT = {
 	'.jpg': 'image/jpeg',
@@ -98,14 +105,21 @@ let css = readFileSync(join(distDir, cssMatch[1]), 'utf8');
 const cssInlined = inlineLocalAssetRefs(css, ['assets']);
 css = cssInlined.text;
 
-// Фото/видео/логотип — строковые пути в JS (React src) и в CSS
-// (`url('/photos/...')` для фона первого экрана).
-const jsInlined = inlineLocalAssetRefs(js, ['photos', 'media', 'logo']);
+// Фото/логотип — строковые пути в JS (React src) и в CSS
+// (`url('/photos/...')` для фона первого экрана). Видео (`/media/`,
+// `/hero/`) сознательно НЕ инлайнится (см. комментарий в шапке файла) —
+// вместо этого папки копируются рядом с HTML, а пути в JS-бандле
+// становятся относительными.
+const jsInlined = inlineLocalAssetRefs(js, ['photos', 'logo']);
 js = jsInlined.text;
-const cssInlined2 = inlineLocalAssetRefs(css, ['photos', 'media', 'logo']);
+const cssInlined2 = inlineLocalAssetRefs(css, ['photos', 'logo']);
 css = cssInlined2.text;
 
-console.log(`Инлайнено ассетов: CSS(шрифты) ${cssInlined.replaced}, JS(медиа) ${jsInlined.replaced}, CSS(медиа) ${cssInlined2.replaced}`);
+const beforeRelPaths = js;
+js = js.split('/media/').join('media/').split('/hero/').join('hero/');
+const relPathsReplaced = js === beforeRelPaths ? 0 : (beforeRelPaths.match(/\/(media|hero)\//g) ?? []).length;
+
+console.log(`Инлайнено ассетов: CSS(шрифты) ${cssInlined.replaced}, JS(фото/лого) ${jsInlined.replaced}, CSS(фото/лого) ${cssInlined2.replaced}; переведено в относительные пути (video) ${relPathsReplaced}`);
 
 // Замена ФУНКЦИЕЙ, не строкой: у `String.replace` строка-замена имеет
 // спецсинтаксис ($&, $`, $', $$) — полтора мегабайта минифицированного кода
@@ -118,7 +132,23 @@ const singleHtml = html
 	.replace(/<script[^>]*src="\/assets\/[^"]+\.js"[^>]*><\/script>/, () => `<script type="module">${js}</script>`)
 	.replace(/<link[^>]*href="\/assets\/[^"]+\.css"[^>]*>/, () => `<style>${css}</style>`);
 
+rmSync(outDir, { recursive: true, force: true });
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, singleHtml.replace(/^\uFEFF/, ''), 'utf8');
+for (const rel of ['media', 'hero']) {
+	const src = join(distDir, rel);
+	if (existsSync(src)) cpSync(src, join(outDir, rel), { recursive: true });
+}
+
 const sizeMb = (statSync(outFile).size / 1024 / 1024).toFixed(1);
-console.log(`Готово: ${outFile} (${sizeMb} МБ)`);
+const du = (dir) => {
+	if (!existsSync(dir)) return 0;
+	let total = 0;
+	for (const entry of readdirSync(dir, { withFileTypes: true })) {
+		const p = join(dir, entry.name);
+		total += entry.isDirectory() ? du(p) : statSync(p).size;
+	}
+	return total;
+};
+const mediaMb = ((du(join(outDir, 'media')) + du(join(outDir, 'hero'))) / 1024 / 1024).toFixed(1);
+console.log(`Готово: ${outDir} (index.html ${sizeMb} МБ + media/hero рядом ~${mediaMb} МБ)`);

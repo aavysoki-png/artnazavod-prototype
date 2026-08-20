@@ -210,18 +210,19 @@
 }
 
 // Селектор с двумя классами (специфичность 0,2,0) осознанно бьёт
-// `.dsb_grid__columns-N` компонента (0,1,0) независимо от порядка
+// `.sbr_grid__columns-N` компонента (0,1,0) независимо от порядка
 // подключения стилей — не полагаемся на то, что тема Vite соберёт CSS после
 // стилей самого Grid.
 @media (max-width: 900px) {
-	.gallery-stats__grid.dsb_grid__columns-4,
-	.gallery-process__grid.dsb_grid__columns-4 {
+	.gallery-stats__grid.sbr_grid__columns-5,
+	.gallery-process__grid.sbr_grid__columns-4 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 480px) {
-	.gallery-process__grid.dsb_grid__columns-4 {
+	.gallery-stats__grid.sbr_grid__columns-5,
+	.gallery-process__grid.sbr_grid__columns-4 {
 		grid-template-columns: 1fr;
 	}
 }
@@ -263,24 +264,24 @@
 	flex: none;
 }
 
-.gallery-city-counts.dsb_grid__columns-3 {
+.gallery-city-counts.sbr_grid__columns-3 {
 	width: 100%;
 }
 
 @media (max-width: 900px) {
-	.gallery-city-counts.dsb_grid__columns-3 {
+	.gallery-city-counts.sbr_grid__columns-3 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 480px) {
-	.gallery-city-counts.dsb_grid__columns-3 {
+	.gallery-city-counts.sbr_grid__columns-3 {
 		grid-template-columns: 1fr;
 	}
 }
 
 @media (max-width: 700px) {
-	.gallery-about__grid.dsb_grid__columns-2 {
+	.gallery-about__grid.sbr_grid__columns-2 {
 		grid-template-columns: 1fr;
 	}
 }
@@ -310,13 +311,13 @@
 }
 
 @media (max-width: 900px) {
-	.gallery-authorship__grid.dsb_grid__columns-3 {
+	.gallery-authorship__grid.sbr_grid__columns-3 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 480px) {
-	.gallery-authorship__grid.dsb_grid__columns-3 {
+	.gallery-authorship__grid.sbr_grid__columns-3 {
 		grid-template-columns: 1fr;
 	}
 }
@@ -593,6 +594,17 @@
 	// классический приём выхода за пределы constrained-родителя.
 	width: 100vw;
 	margin-inline: calc(50% - 50vw);
+
+	// Обёртка получает программный фокус (tabIndex={-1} + .focus() в
+	// ObjectCard.tsx, 14.08) ради стрелок ←/→, но не участвует в обычной
+	// Tab-навигации и не является видимым элементом управления сама по
+	// себе — дефолтный синий outline браузера у full-bleed 100vw-блока
+	// рисует линии сверху и снизу через весь экран (левый/правый края
+	// уходят за пределы вьюпорта). Настоящие интерактивные элементы внутри
+	// (кнопки-стрелки, превью) сохраняют свой собственный focus-visible.
+	&:focus-visible {
+		outline: none;
+	}
 }
 
 // Карусель «по образцу заказчика»: центральный слайд виден целиком, соседние
@@ -732,6 +744,21 @@
 	.gallery-card__expanded-body {
 		grid-template-columns: 1fr;
 	}
+}
+
+// Правая колонка раскрытой карточки — факты производства (Объект/Техника/
+// Площадь и т.п. из докса заказчика, поле «Общая информация»), не карточка
+// с рамкой — сброс дефолтных отступов браузера у <dl>/<dd>.
+.gallery-card__facts {
+	margin: 0;
+}
+
+.gallery-card__fact {
+	margin: 0 0 var(--size-spacing-x4);
+}
+
+.gallery-card__fact dd {
+	margin: var(--size-spacing-x1) 0 0;
 }
 
 // Превью — первой строкой сразу под открытым фото/видео, не в конце текста

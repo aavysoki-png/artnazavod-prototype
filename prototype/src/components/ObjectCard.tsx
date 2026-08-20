@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Ref } from 'react';
+import type { KeyboardEvent, Ref } from 'react';
 import { Icon, IconButton, Typography } from '@sibur/design-system-react';
 import { Icons } from '@sibur/design-tokens/js/iconfont';
 
-import { FACILITY_INDEX_BY_SLUG, type ArtObject } from '../data/objects';
-import { FACILITY_PHOTOS, photoFor } from '../data/photos';
+import type { ArtObject } from '../data/objects';
 
 interface ObjectCardProps {
 	readonly object: ArtObject;
@@ -13,21 +12,6 @@ interface ObjectCardProps {
 }
 
 type MediaItem = { kind: 'photo'; src: string } | { kind: 'video'; src: string };
-
-/**
- * Два демо-видео, добавленные пользователем 2026-08-07 (`extraction/
- * previews/video.mp4`, `IMG_7264.MP4`) — реальной привязки к конкретному
- * муралу нет и намеренно не выясняется (по прямому решению пользователя:
- * «пока не важно к какому объекту он реально относится, добавь во все
- * карточки для примера»). Показывают заказчику МЕХАНИКУ переключения между
- * фото/видео в галерее объекта, не то, что видео снято именно на этой
- * площадке — это не нарушение Content Truth Policy, а прямое указание
- * пользователя показать демо-контент как демо-контент.
- */
-const DEMO_VIDEOS: readonly MediaItem[] = [
-	{ kind: 'video', src: '/media/demo-video-1.mp4' },
-	{ kind: 'video', src: '/media/demo-video-2.mp4' },
-];
 
 /**
  * Карточка объекта — единственный компонент, который несёт Inline Expansion
@@ -47,6 +31,7 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 	const ref = useRef<HTMLButtonElement | HTMLDivElement>(null);
 	const wasExpanded = useRef(expanded);
 	const carouselRef = useRef<HTMLDivElement>(null);
+	const mediaWrapRef = useRef<HTMLDivElement>(null);
 	const [activeMedia, setActiveMedia] = useState(0);
 	// Фото/видео с фотобанка — внешний ресурс, запрос может не отдаться (404,
 	// сеть). Без обработки ошибки браузер молча показывает битую иконку —
@@ -67,6 +52,11 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 				behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
 				block: 'start',
 			});
+			// Раскрытая карточка заменяет <button> на <div> — старый фокус с
+			// кнопки-триггера пропадает вместе с ней (браузер сбрасывает фокус
+			// на <body>), поэтому стрелки ←/→ сразу после раскрытия никуда не
+			// попадали бы. Переносим фокус на область карусели явно.
+			mediaWrapRef.current?.focus({ preventScroll: true });
 		}
 		wasExpanded.current = expanded;
 	}, [expanded]);
@@ -91,8 +81,7 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeMedia, expanded]);
 
-	const facilityPhotoIndex = FACILITY_INDEX_BY_SLUG[object.slug] ?? 0;
-	const photo = photoFor(object.facility, facilityPhotoIndex);
+	const photo = object.media.photos[0] ?? null;
 
 	if (!expanded) {
 		// Настоящий <button>, не div+role="button": карточка переключает
@@ -125,22 +114,29 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 		);
 	}
 
-	const facilityPool = FACILITY_PHOTOS[object.facility];
-
-	// Медиагалерея объекта: 3-7 фото (ТЗ) + демо-видео (см. DEMO_VIDEOS выше).
-	// Фото — из общего пула площадки (photo.sibur.ru), количество ограничено
-	// числом исходных файлов слайда — не декоративный набор произвольной
-	// длины. Пул площадки маленький (1-6 фото), при нехватке кадры пула
-	// честно повторяются, а не растягиваются в несуществующие уникальные
-	// снимки.
-	const photoItems: MediaItem[] = object.media.sourceFiles.slice(0, 7).map((_file, i) =>
-		facilityPool
-			? { kind: 'photo', src: facilityPool[i % facilityPool.length] }
-			: { kind: 'photo', src: '' },
-	);
-	const media: MediaItem[] = [...photoItems, ...DEMO_VIDEOS];
+	// Медиагалерея объекта — реальные фото и видео этого конкретного мурала
+	// (финальная фактура заказчика, 2026-08-20), не общий пул площадки.
+	const media: MediaItem[] = [
+		...object.media.photos.map((src): MediaItem => ({ kind: 'photo', src })),
+		...object.media.videos.map((src): MediaItem => ({ kind: 'video', src })),
+	];
 
 	const goTo = (index: number) => setActiveMedia(((index % media.length) + media.length) % media.length);
+
+	// Листание стрелками — раньше отсутствовало вовсе (только клик по кнопкам
+	// и превью). Вешаем на обёртку, а не на сам скроллящийся `.carousel`: так
+	// стрелки работают одинаково, где бы ни стоял фокус внутри неё — на кнопке
+	// prev/next или на самой области (после программного `.focus()` выше).
+	const handleGalleryKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+		if (media.length <= 1) return;
+		if (event.key === 'ArrowLeft') {
+			event.preventDefault();
+			goTo(activeMedia - 1);
+		} else if (event.key === 'ArrowRight') {
+			event.preventDefault();
+			goTo(activeMedia + 1);
+		}
+	};
 
 	return (
 		<div ref={ref as Ref<HTMLDivElement>} id={object.slug} className="gallery-card gallery-card--expanded">
@@ -148,7 +144,14 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 				<IconButton variant="plain" size="large" iconName={Icons.Close} aria-label="Свернуть" onClick={() => onToggle(object.slug)} />
 			</div>
 
-			<div className="gallery-card__expanded-media-wrap">
+			<div
+				className="gallery-card__expanded-media-wrap"
+				ref={mediaWrapRef}
+				tabIndex={-1}
+				role="group"
+				aria-label="Фото и видео объекта, переключение стрелками влево-вправо"
+				onKeyDown={handleGalleryKeyDown}
+			>
 				{/* Карусель по образцу заказчика: центральный слайд виден целиком,
 				    соседние — частично по бокам, обрезаны краем контейнера. Высота
 				    фиксирована, ширина каждого слайда — по его реальным пропорциям
@@ -278,30 +281,20 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 					) : null}
 				</div>
 
-				<div>
-					<Typography variant="overline" as="span" color="colorTextGreyInactive">
-						Предприятие
-					</Typography>
-					<Typography variant="body2" as="p" style={{ marginTop: 'var(--size-spacing-x1)', marginBottom: 'var(--size-spacing-x4)' }}>
-						{object.facility}
-						{object.facilityNote ? (
-							<Typography variant="caption" as="span" color="colorTextGreyInactive" style={{ display: 'block', marginTop: 'var(--size-spacing-x1)' }}>
-								{object.facilityNote}
-							</Typography>
-						) : null}
-					</Typography>
-
-					{object.groupNote ? (
-						<>
-							<Typography variant="overline" as="span" color="colorTextGreyInactive">
-								Контекст
-							</Typography>
-							<Typography variant="body2" as="p" style={{ marginTop: 'var(--size-spacing-x1)' }}>
-								{object.groupNote}
-							</Typography>
-						</>
-					) : null}
-				</div>
+				{object.facts.length > 0 ? (
+					<dl className="gallery-card__facts">
+						{object.facts.map((fact) => (
+							<div key={fact.label} className="gallery-card__fact">
+								<Typography variant="overline" as="dt" color="colorTextGreyInactive">
+									{fact.label}
+								</Typography>
+								<Typography variant="body2" as="dd">
+									{fact.value}
+								</Typography>
+							</div>
+						))}
+					</dl>
+				) : null}
 			</div>
 		</div>
 	);
