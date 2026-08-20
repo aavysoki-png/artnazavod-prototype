@@ -9,7 +9,7 @@ import { Icons } from '@sibur/design-tokens/js/iconfont';
  * git-трекинга прототипа (`public/hero/`, см. `.gitignore`). Порядок — не
  * смысловая последовательность, а порядок файлов в исходной папке.
  */
-const HERO_VIDEOS: readonly string[] = ['/hero/hero-1.mp4', '/hero/hero-2.mp4', '/hero/hero-3.mp4', '/hero/hero-4.mp4', '/hero/hero-5.mp4', '/hero/hero-6.mp4'];
+const HERO_VIDEOS: readonly string[] = ['hero/hero-1.mp4', 'hero/hero-2.mp4', 'hero/hero-3.mp4', 'hero/hero-4.mp4', 'hero/hero-5.mp4', 'hero/hero-6.mp4'];
 
 /**
  * Первый экран (ТЗ, п.7): «Полноэкранная фотография, логотип проекта,

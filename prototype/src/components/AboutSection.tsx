@@ -16,7 +16,7 @@ export function AboutSection() {
 				{/* Отступ логотип↔заголовок — 72px, втрое больше шага x6 (24px):
 				    вне шкалы DS (та кончается на x10=40px), поэтому не токен. */}
 				<Stack direction="horizontal" align="center" className="gallery-about__heading" style={{ gap: '72px' }}>
-					<img className="gallery-about__logo" src="/logo/artnazavod-logo.svg" alt="АртНаЗавод" />
+					<img className="gallery-about__logo" src="logo/artnazavod-logo.svg" alt="АртНаЗавод" />
 					<Typography variant="h2" as="h2" className="gallery-display-tracking" style={{ maxWidth: 860 }}>
 						«АртНаЗавод» — <span className="gallery-accent-brand">галерея современного искусства</span> на заводах СИБУРа. Вместо холстов – резервуары, трубы, фасады цехов и операторных.
 					</Typography>

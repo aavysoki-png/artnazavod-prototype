@@ -1,5 +1,11 @@
 #!/bin/bash
 # Деплой прототипа «АртНаЗавод» на dribble: локальная сборка -> rsync dist/ -> nginx-контейнер.
+#
+# ВАЖНО: сборка ("npm run build" ниже) возможна ТОЛЬКО на этой машине —
+# package.json подключает @sibur/design-system-react и @sibur/design-tokens
+# через file:-ссылки на ../../ux-rules-mcp/... (соседняя папка вне этого
+# репозитория). На боевом ВПС НИКОГДА не делать "git clone" + "npm install"
+# — только собрать здесь и залить готовый dist/, как делает этот скрипт.
 set -euo pipefail
 
 SSH_KEY=~/.ssh/server_key

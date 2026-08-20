@@ -1,13 +1,24 @@
+import { lazy, Suspense } from 'react';
 import { ThemeProvider } from '@sibur/design-system-react';
 
 import { AboutSection } from './components/AboutSection';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { HeroSection } from './components/HeroSection';
 import { HistorySection } from './components/HistorySection';
-import { MapSection } from './components/MapSection';
 import { ObjectsSection } from './components/ObjectsSection';
 import { StatsSection } from './components/StatsSection';
 import { useDeepLink } from './hooks/useDeepLink';
 import './theme/gallery-theme.scss';
+
+// Leaflet (карта) — тяжёлая библиотека, нужна только когда пользователь
+// долистает до карты, не для первого экрана — ленивая загрузка своим
+// чанком вместо склейки в основной бандл (2026-08-21, аудит перед
+// публикацией). Обёрнута в ErrorBoundary (не только Suspense) — если чанк
+// не подгрузится (сетевой сбой у реального посетителя, либо пакет
+// `dist-singlefile/`, где отдельного чанка физически нет), падает только
+// секция карты, а не всё приложение: без границы ошибок необработанный
+// сбой `React.lazy` размонтировал бы вообще всё дерево от корня.
+const MapSection = lazy(() => import('./components/MapSection').then((m) => ({ default: m.MapSection })));
 
 /**
  * Порядок секций — прямое требование ТЗ («Раздел объектов»/структура
@@ -30,7 +41,11 @@ function App() {
 				<AboutSection />
 				<StatsSection />
 				<HistorySection />
-				<MapSection />
+				<ErrorBoundary>
+					<Suspense fallback={null}>
+						<MapSection />
+					</Suspense>
+				</ErrorBoundary>
 				<ObjectsSection expandedSlug={expandedSlug} onToggle={onToggle} />
 			</div>
 		</ThemeProvider>

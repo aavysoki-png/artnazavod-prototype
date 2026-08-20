@@ -31,8 +31,11 @@ function tsStringOrNull(value) {
 }
 
 const entries = manifest.objects.map((o) => {
-	const photos = listOutputFiles(path.join(prototypeRoot, 'public', 'photos', o.slug)).map((f) => `/photos/${o.slug}/${f}`);
-	const videos = listOutputFiles(path.join(prototypeRoot, 'public', 'media', o.slug)).map((f) => `/media/${o.slug}/${f}`);
+	// Без ведущего "/" — раздел встраивается не в корень домена (см.
+	// vite.config.ts base:'./'), абсолютные от корня пути сломались бы при
+	// монтировании в поддиректорию за прокси.
+	const photos = listOutputFiles(path.join(prototypeRoot, 'public', 'photos', o.slug)).map((f) => `photos/${o.slug}/${f}`);
+	const videos = listOutputFiles(path.join(prototypeRoot, 'public', 'media', o.slug)).map((f) => `media/${o.slug}/${f}`);
 	return { ...o, photos, videos, facts: o.facts ?? [] };
 });
 
