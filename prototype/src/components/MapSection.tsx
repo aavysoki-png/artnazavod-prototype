@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Icon, Stack, Typography } from '@sibur/design-system-react';
 import { Icons } from '@sibur/design-tokens/js/iconfont';
 import L from 'leaflet';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -23,25 +20,35 @@ const OBJECTS_BY_CITY: Readonly<Record<string, readonly (typeof ART_OBJECTS)[num
 	return out;
 })();
 
-// Vite не резолвит дефолтные пути иконок Leaflet (собраны под классическую
-// сборку без бандлера) — стандартный фикс: подставить импортированные Vite
-// урлы вручную, иначе маркеры рендерятся сломанными картинками.
-const defaultIcon = L.icon({
-	iconUrl: markerIcon,
-	iconRetinaUrl: markerIcon2x,
-	shadowUrl: markerShadow,
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
+// Метка брендового цвета (2026-08-21, просьба пользователя) — не PNG из
+// комплекта Leaflet (тот всегда синий, перекрасить нельзя без замены
+// файла), а инлайн-SVG через `L.divIcon`: капля + белый кружок для
+// контраста, тот же силуэт, что был у дефолтного маркера. Цвет — через
+// `var(--color-background-brand)`, тот же токен, что уже используют другие
+// брендовые акценты на странице (см. `gallery-theme.scss`), не хардкод
+// хекса. Обязательно вне `.leaflet-tile-pane` — только тайлы обесцвечены
+// CSS-фильтром (см. `gallery-theme.scss`), маркеры красятся в полный цвет.
+const PIN_SVG = `
+	<svg width="26" height="38" viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 2px rgba(0,0,0,0.35))">
+		<path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 24 12 24s12-15 12-24C24 5.373 18.627 0 12 0z" fill="var(--color-background-brand)" />
+		<circle cx="12" cy="12" r="5" fill="#ffffff" />
+	</svg>
+`;
+const defaultIcon = L.divIcon({
+	html: PIN_SVG,
+	className: 'gallery-map__pin',
+	iconSize: [26, 38],
+	iconAnchor: [13, 38],
 	popupAnchor: [1, -34],
-	shadowSize: [41, 41],
 });
 
 /**
- * «Интерактивная карта» (ТЗ: монохромный плагин Яндекс.Карт с метками
- * объектов). Яндекс.Карты требуют API-ключ продакшн-домена — для прототипа
- * подставлен Leaflet (открытый, без ключа), тайлы обесцвечены CSS-фильтром —
- * тот же монохромный эффект, другой поставщик тайлов. Замена — вопрос
- * продакшна, не молчаливый произвол (см. tasks.md).
+ * «Интерактивная карта» (ТЗ: изначально монохромный плагин Яндекс.Карт с
+ * метками объектов — от монохромности пользователь отказался 2026-08-21,
+ * карта теперь в естественном цвете спутникового снимка, см. ниже).
+ * Яндекс.Карты требуют API-ключ продакшн-домена — для прототипа подставлен
+ * Leaflet (открытый, без ключа). Замена — вопрос продакшна, не молчаливый
+ * произвол (см. tasks.md).
  *
  * **Спутниковые тайлы вместо схематичных (2026-08-21), осознанное решение
  * заказчика.** Схематичные карты (OSM, CARTO и почти любой другой
@@ -54,9 +61,9 @@ const defaultIcon = L.icon({
  * снимок физически не содержит политических границ вообще, ни в чьей
  * трактовке, это не редакционное решение карты, а сама природа аэрофото.
  * Источник — Esri World Imagery, тот же бесплатный принцип, что был у OSM
- * (без API-ключа, публичный сервис). Монохромность (ТЗ) не пострадала —
- * тот же CSS-фильтр `grayscale` в `gallery-theme.scss` обесцвечивает и
- * спутниковый снимок точно так же, как раньше схематичные тайлы.
+ * (без API-ключа, публичный сервис). Монохромный CSS-фильтр (`grayscale`)
+ * стоял на тайлах до 2026-08-21 — убран по прямой просьбе пользователя,
+ * карта сейчас в естественном цвете снимка.
  *
  * Метки — на уровне ГОРОДА, не конкретного объекта: реестр (задача 31) не
  * содержит координат ни одного мурала/резервуара, это открытый вопрос
@@ -80,8 +87,42 @@ export function MapSection() {
 		const container = mapContainerRef.current;
 		if (!container || mapRef.current) return;
 
-		const map = L.map(container, { scrollWheelZoom: false });
+		// `scrollWheelZoom: false` — простой скролл колесом/двумя пальцами над
+		// картой должен листать СТРАНИЦУ, не зумить карту (иначе страницу под
+		// картой невозможно проскроллить мышью). Но на трекпаде Mac жест
+		// pinch-to-zoom браузер доставляет как `wheel` с `ctrlKey: true`
+		// (эмуляция зума страницы, не отдельное touch-событие — трекпад
+		// MacBook не тачскрин) — раз Leaflet не слушает wheel вовсе, событие
+		// улетает в браузер как обычно и зумит САЙТ. Ловим именно
+		// `ctrlKey`-события вручную ниже и зумим карту, а не полагаемся на
+		// `scrollWheelZoom`, которая ловит куда более широкий класс событий,
+		// чем нужно (см. обработчик `handleWheel`).
+		const map = L.map(container, {
+			scrollWheelZoom: false,
+			zoomSnap: 0.25,
+			zoomDelta: 0.5,
+			// Дефолтная атрибуция Leaflet содержит SVG-флаг Украины — сами
+			// разработчики библиотеки добавили его в разметку (переменная в
+			// исходниках так и называется, `ukrainianFlag`) как жест
+			// солидарности в 2022 году, не случайное совпадение цветов.
+			// Учитывая контекст этой сессии (заказчик явно просил не
+			// затрагивать эту тему на карте вообще, 2026-08-21) — заменяем
+			// префикс на обычный текст без флага, саму атрибуцию Leaflet как
+			// библиотеки не убираем (это не то же самое, что обязательная
+			// атрибуция Esri, но убирать без причины тоже незачем).
+			attributionControl: false,
+		});
+		L.control.attribution({ prefix: 'Leaflet' }).addTo(map);
 		mapRef.current = map;
+
+		// `passive: false` обязателен — иначе `preventDefault()` не подавит
+		// нативный зум страницы браузером.
+		const handleWheel = (event: WheelEvent) => {
+			if (!event.ctrlKey) return;
+			event.preventDefault();
+			map.setZoom(map.getZoom() - event.deltaY * 0.01, { animate: false });
+		};
+		container.addEventListener('wheel', handleWheel, { passive: false });
 
 		// Esri World Imagery — публичный бесплатный сервис без API-ключа,
 		// z/y/x (не z/x/y, как у OSM/CARTO) — такой у Esri порядок сегментов
@@ -133,6 +174,7 @@ export function MapSection() {
 		}
 
 		return () => {
+			container.removeEventListener('wheel', handleWheel);
 			map.remove();
 			mapRef.current = null;
 			markersRef.current = {};
@@ -179,10 +221,6 @@ export function MapSection() {
 						</Typography>
 					</Stack>
 				) : null}
-				<Typography variant="caption" as="p" color="colorTextGreyInactive" style={{ marginTop: 'var(--size-spacing-x2)' }}>
-					Метка показывает город, не точный адрес объекта — координаты
-					конкретных муралов и резервуаров заказчиком ещё не переданы.
-				</Typography>
 
 				<Stack direction="horizontal" spacing="x2" wrap="wrap" style={{ marginTop: 'var(--size-spacing-x4)' }}>
 					{CITIES.map((city) => (
