@@ -16,11 +16,8 @@
 # причина, что раньше была у фото с photo.sibur.ru (права на публикацию вне
 # официального сайта не оговорены отдельно), плюс размер: даже после
 # сжатия `prepare-final-media.mjs` это десятки-сотни МБ, не для git.
-/prototype/public/photos/
-/prototype/public/media/
 
 # Хиро-нарезка первого экрана (та же финальная фактура) — тот же принцип.
-/prototype/public/hero/
 
 # Node / сборка
 node_modules/

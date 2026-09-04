@@ -1,0 +1,6 @@
+# Видео объектов и первого экрана — через Git LFS (19 файлов, ~440 МБ,
+# самый крупный 147 МБ). Фотографии (251 jpg, ~47 МБ, до 400 КБ каждая)
+# лежат обычными blob-ами: они мелкие и должны быть видны в веб-интерфейсе.
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
