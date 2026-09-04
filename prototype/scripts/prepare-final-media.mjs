@@ -170,8 +170,18 @@ async function processFolderGroup(obj, outPhotoDir, outVideoDir) {
 }
 
 async function main() {
-	const onlySlug = process.argv[2]; // опционально: обработать один slug для отладки, не трогая остальные
-	if (onlySlug) {
+	// `--hero` — пересобрать только видеоряд первого экрана, не трогая объекты
+	// (полный прогон перекодирует ~3 ГБ фактуры, ради правки списка роликов
+	// это несоразмерно).
+	const heroOnly = process.argv[2] === '--hero';
+	const onlySlug = heroOnly ? null : process.argv[2]; // опционально: обработать один slug для отладки, не трогая остальные
+	// Полный прогон начинается с чистого листа, чтобы в public не остались
+	// файлы объектов, которых уже нет в манифесте. Частичный (`<slug>`) и
+	// `--hero` чистить public/photos|media НЕ должны — иначе прогон ради
+	// одного объекта или ради шапки сносит всю подготовленную фактуру.
+	if (heroOnly) {
+		// каталоги объектов не трогаем вовсе
+	} else if (onlySlug) {
 		mkdirSync(photosOut, { recursive: true });
 		mkdirSync(mediaOut, { recursive: true });
 	} else {
@@ -180,7 +190,7 @@ async function main() {
 	}
 
 	const results = {};
-	for (const obj of manifest.objects) {
+	for (const obj of heroOnly ? [] : manifest.objects) {
 		if (onlySlug && obj.slug !== onlySlug) continue;
 		const outPhotoDir = path.join(photosOut, obj.slug);
 		const outVideoDir = path.join(mediaOut, obj.slug);
@@ -189,10 +199,20 @@ async function main() {
 	}
 
 	if (!onlySlug) {
-		// Хиро-нарезка первого экрана
+		// Хиро-нарезка первого экрана. `heroExclude` — имена файлов исходной
+		// папки, которые заказчик решил не показывать: убираются ДО нумерации,
+		// то есть оставшиеся ролики всегда идут hero-1..hero-N без дырок.
 		ensureEmptyDir(heroOut);
 		const heroFolder = resolveSourceFolder(manifest.heroSourceFolder);
-		const heroFiles = listMediaFiles(heroFolder).filter((f) => VIDEO_EXT.has(path.extname(f).toLowerCase()));
+		const heroExcluded = new Set((manifest.heroExclude ?? []).map((f) => nfc(f).toLowerCase()));
+		const heroFiles = listMediaFiles(heroFolder)
+			.filter((f) => VIDEO_EXT.has(path.extname(f).toLowerCase()))
+			.filter((f) => !heroExcluded.has(nfc(f).toLowerCase()));
+		for (const name of manifest.heroExclude ?? []) {
+			if (!listMediaFiles(heroFolder).some((f) => sameFile(f, name))) {
+				throw new Error(`Исключённый ролик шапки "${name}" не найден в ${manifest.heroSourceFolder}`);
+			}
+		}
 		let heroIndex = 0;
 		for (const file of heroFiles) {
 			heroIndex += 1;

@@ -1,6 +1,10 @@
 {
 	"sourceRoot": "../../Финальная фактура /Муралы на предприятиях",
 	"heroSourceFolder": "___НАРЕЗКА для шапки",
+	"heroExclude": [
+		"20231130_135258.mp4",
+		"VID-20241004-WA0015.mp4"
+	],
 	"objects": [
 		{
 			"slug": "zsnh-sosedi-sibura",
