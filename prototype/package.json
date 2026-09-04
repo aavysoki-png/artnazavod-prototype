@@ -9,8 +9,8 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@sibur/design-system-react": "file:../../ux-rules-mcp/Components and tokens/design-system-react-main",
-		"@sibur/design-tokens": "file:../../ux-rules-mcp/Components and tokens/design-tokens-master/dist/web",
+		"@sibur/design-system-react": "^3.8.1",
+		"@sibur/design-tokens": "^3.1.2",
 		"leaflet": "^1.9.4",
 		"leaflet.markercluster": "^1.5.3",
 		"react": "^19.2.7",
