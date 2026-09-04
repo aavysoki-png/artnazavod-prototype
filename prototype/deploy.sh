@@ -39,6 +39,7 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$HOST" "
     --network dev-net \
     --restart unless-stopped \
     -p $HOST_PORT:80 \
+    --label 'icon=https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/vite.png' \
     -v $REMOTE_BASE/$CONTAINER_NAME/dist:/usr/share/nginx/html:ro \
     nginx:alpine
 "
