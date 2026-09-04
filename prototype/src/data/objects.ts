@@ -50,7 +50,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "3 500 м²" },
 		],
 		media: {
-			photos: ["photos/zsnh-sosedi-sibura/01.jpg", "photos/zsnh-sosedi-sibura/02.jpg", "photos/zsnh-sosedi-sibura/03.jpg", "photos/zsnh-sosedi-sibura/04.jpg", "photos/zsnh-sosedi-sibura/05.jpg", "photos/zsnh-sosedi-sibura/06.jpg", "photos/zsnh-sosedi-sibura/07.jpg", "photos/zsnh-sosedi-sibura/08.jpg", "photos/zsnh-sosedi-sibura/09.jpg", "photos/zsnh-sosedi-sibura/10.jpg", "photos/zsnh-sosedi-sibura/11.jpg", "photos/zsnh-sosedi-sibura/12.jpg", "photos/zsnh-sosedi-sibura/13.jpg", "photos/zsnh-sosedi-sibura/14.jpg", "photos/zsnh-sosedi-sibura/15.jpg", "photos/zsnh-sosedi-sibura/16.jpg", "photos/zsnh-sosedi-sibura/17.jpg", "photos/zsnh-sosedi-sibura/18.jpg", "photos/zsnh-sosedi-sibura/19.jpg", "photos/zsnh-sosedi-sibura/20.jpg", "photos/zsnh-sosedi-sibura/21.jpg", "photos/zsnh-sosedi-sibura/22.jpg", "photos/zsnh-sosedi-sibura/23.jpg"],
+			photos: ["photos/zsnh-sosedi-sibura/01.jpg", "photos/zsnh-sosedi-sibura/02.jpg", "photos/zsnh-sosedi-sibura/03.jpg", "photos/zsnh-sosedi-sibura/04.jpg", "photos/zsnh-sosedi-sibura/05.jpg", "photos/zsnh-sosedi-sibura/06.jpg", "photos/zsnh-sosedi-sibura/07.jpg", "photos/zsnh-sosedi-sibura/08.jpg", "photos/zsnh-sosedi-sibura/09.jpg", "photos/zsnh-sosedi-sibura/10.jpg", "photos/zsnh-sosedi-sibura/11.jpg", "photos/zsnh-sosedi-sibura/12.jpg", "photos/zsnh-sosedi-sibura/13.jpg", "photos/zsnh-sosedi-sibura/14.jpg", "photos/zsnh-sosedi-sibura/15.jpg", "photos/zsnh-sosedi-sibura/16.jpg", "photos/zsnh-sosedi-sibura/17.jpg", "photos/zsnh-sosedi-sibura/18.jpg", "photos/zsnh-sosedi-sibura/19.jpg", "photos/zsnh-sosedi-sibura/20.jpg", "photos/zsnh-sosedi-sibura/21.jpg", "photos/zsnh-sosedi-sibura/22.jpg"],
 			videos: ["media/zsnh-sosedi-sibura/01.mp4"],
 		},
 	},
@@ -193,7 +193,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "1 500 м²" },
 		],
 		media: {
-			photos: ["photos/poliev-vivilen/01.jpg", "photos/poliev-vivilen/02.jpg", "photos/poliev-vivilen/03.jpg", "photos/poliev-vivilen/04.jpg", "photos/poliev-vivilen/05.jpg", "photos/poliev-vivilen/06.jpg", "photos/poliev-vivilen/07.jpg"],
+			photos: ["photos/poliev-vivilen/01.jpg", "photos/poliev-vivilen/02.jpg", "photos/poliev-vivilen/03.jpg", "photos/poliev-vivilen/04.jpg", "photos/poliev-vivilen/05.jpg", "photos/poliev-vivilen/06.jpg"],
 			videos: [],
 		},
 	},
@@ -337,7 +337,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "700 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-portal-neftehimiyu/01.jpg", "photos/nknh-portal-neftehimiyu/02.jpg", "photos/nknh-portal-neftehimiyu/03.jpg", "photos/nknh-portal-neftehimiyu/04.jpg", "photos/nknh-portal-neftehimiyu/05.jpg", "photos/nknh-portal-neftehimiyu/06.jpg", "photos/nknh-portal-neftehimiyu/07.jpg", "photos/nknh-portal-neftehimiyu/08.jpg", "photos/nknh-portal-neftehimiyu/09.jpg", "photos/nknh-portal-neftehimiyu/10.jpg"],
+			photos: ["photos/nknh-portal-neftehimiyu/01.jpg", "photos/nknh-portal-neftehimiyu/02.jpg", "photos/nknh-portal-neftehimiyu/03.jpg", "photos/nknh-portal-neftehimiyu/04.jpg", "photos/nknh-portal-neftehimiyu/05.jpg", "photos/nknh-portal-neftehimiyu/06.jpg", "photos/nknh-portal-neftehimiyu/07.jpg", "photos/nknh-portal-neftehimiyu/08.jpg", "photos/nknh-portal-neftehimiyu/09.jpg"],
 			videos: [],
 		},
 	},

@@ -31,7 +31,10 @@
 					"value": "3 500 м²"
 				}
 			],
-			"cover": "8c4a3ca6.webp"
+			"cover": "8c4a3ca6.webp",
+			"exclude": [
+				"2019-11-01-11-40-31.JPG.webp"
+			]
 		},
 		{
 			"slug": "zsnh-mendeleev",
@@ -241,6 +244,9 @@
 					"label": "Площадь",
 					"value": "1 500 м²"
 				}
+			],
+			"exclude": [
+				"1ee8a327.webp"
 			]
 		},
 		{
@@ -458,6 +464,7 @@
 			],
 			"cover": "20230501-_MG_1464.jpg",
 			"exclude": [
+				"20230501-_MG_1435.jpg",
 				"20230501-_MG_1437-min.jpg",
 				"20230501-_MG_1443-min.jpg",
 				"20230501-_MG_1443.jpg",
@@ -519,6 +526,9 @@
 					"label": "Площадь",
 					"value": "270 м²"
 				}
+			],
+			"exclude": [
+				"Screenshot 2026-08-09 161802.jpg"
 			]
 		},
 		{
