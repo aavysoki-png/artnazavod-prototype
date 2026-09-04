@@ -47,6 +47,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Серия резервуаров" },
 			{ label: "Техника", value: "фасадная роспись кистями и аэрозольными красками" },
+			{ label: "Площадь", value: "3 500 м²" },
 		],
 		media: {
 			photos: ["photos/zsnh-sosedi-sibura/01.jpg", "photos/zsnh-sosedi-sibura/02.jpg", "photos/zsnh-sosedi-sibura/03.jpg", "photos/zsnh-sosedi-sibura/04.jpg", "photos/zsnh-sosedi-sibura/05.jpg", "photos/zsnh-sosedi-sibura/06.jpg", "photos/zsnh-sosedi-sibura/07.jpg", "photos/zsnh-sosedi-sibura/08.jpg", "photos/zsnh-sosedi-sibura/09.jpg", "photos/zsnh-sosedi-sibura/10.jpg", "photos/zsnh-sosedi-sibura/11.jpg", "photos/zsnh-sosedi-sibura/12.jpg", "photos/zsnh-sosedi-sibura/13.jpg", "photos/zsnh-sosedi-sibura/14.jpg", "photos/zsnh-sosedi-sibura/15.jpg", "photos/zsnh-sosedi-sibura/16.jpg", "photos/zsnh-sosedi-sibura/17.jpg", "photos/zsnh-sosedi-sibura/18.jpg", "photos/zsnh-sosedi-sibura/19.jpg", "photos/zsnh-sosedi-sibura/20.jpg", "photos/zsnh-sosedi-sibura/21.jpg", "photos/zsnh-sosedi-sibura/22.jpg", "photos/zsnh-sosedi-sibura/23.jpg"],
@@ -81,8 +82,8 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "МАН" },
 			{ label: "Техника", value: "фасадная роспись аэрозольными красками и кистями" },
-			{ label: "Площадь", value: "712 м²" },
 			{ label: "Потрачено", value: "120 л краски (покраска 25 легковых автомобилей), 4 промышленных художника, 5 креативщиков на разработку решения" },
+			{ label: "Площадь", value: "360 м²" },
 		],
 		media: {
 			photos: ["photos/zsnh-man/01.jpg", "photos/zsnh-man/02.jpg", "photos/zsnh-man/03.jpg"],
@@ -100,6 +101,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Центр пилотирования технологий" },
 			{ label: "Техника", value: "печать на фасадных кассетах" },
+			{ label: "Площадь", value: "600 м²" },
 		],
 		media: {
 			photos: ["photos/zsnh-cpt-poliolefiny/01.jpg", "photos/zsnh-cpt-poliolefiny/02.jpg", "photos/zsnh-cpt-poliolefiny/03.jpg", "photos/zsnh-cpt-poliolefiny/04.jpg", "photos/zsnh-cpt-poliolefiny/05.jpg", "photos/zsnh-cpt-poliolefiny/06.jpg"],
@@ -117,6 +119,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Трубы" },
 			{ label: "Техника", value: "фасадная роспись" },
+			{ label: "Площадь", value: "188 м²" },
 		],
 		media: {
 			photos: ["photos/shp-zveri/01.jpg", "photos/shp-zveri/02.jpg", "photos/shp-zveri/03.jpg", "photos/shp-zveri/04.jpg", "photos/shp-zveri/05.jpg", "photos/shp-zveri/06.jpg", "photos/shp-zveri/07.jpg", "photos/shp-zveri/08.jpg", "photos/shp-zveri/09.jpg", "photos/shp-zveri/10.jpg", "photos/shp-zveri/11.jpg", "photos/shp-zveri/12.jpg", "photos/shp-zveri/13.jpg", "photos/shp-zveri/14.jpg", "photos/shp-zveri/15.jpg", "photos/shp-zveri/16.jpg"],
@@ -151,6 +154,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Резервуар, установка ЭП-300" },
 			{ label: "Техника", value: "фасадная роспись кистями и аэрозольными красками" },
+			{ label: "Площадь", value: "650 м²" },
 		],
 		media: {
 			photos: ["photos/kstovo-minin/01.jpg", "photos/kstovo-minin/02.jpg"],
@@ -168,6 +172,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Ресиверы" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "565,16 м²" },
 		],
 		media: {
 			photos: ["photos/kstovo-chkalov/01.jpg", "photos/kstovo-chkalov/02.jpg", "photos/kstovo-chkalov/03.jpg", "photos/kstovo-chkalov/04.jpg", "photos/kstovo-chkalov/05.jpg", "photos/kstovo-chkalov/06.jpg"],
@@ -185,7 +190,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства Vivilen" },
 			{ label: "Техника", value: "фасадная роспись" },
-			{ label: "Площадь", value: "около 1500 м²" },
+			{ label: "Площадь", value: "1 500 м²" },
 		],
 		media: {
 			photos: ["photos/poliev-vivilen/01.jpg", "photos/poliev-vivilen/02.jpg", "photos/poliev-vivilen/03.jpg", "photos/poliev-vivilen/04.jpg", "photos/poliev-vivilen/05.jpg", "photos/poliev-vivilen/06.jpg", "photos/poliev-vivilen/07.jpg"],
@@ -203,6 +208,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Фасад локальных очистных сооружений" },
 			{ label: "Техника", value: "фасадная роспись" },
+			{ label: "Площадь", value: "662 м²" },
 		],
 		media: {
 			photos: ["photos/tnh-zabota-los/01.jpg", "photos/tnh-zabota-los/02.jpg", "photos/tnh-zabota-los/03.jpg", "photos/tnh-zabota-los/04.jpg", "photos/tnh-zabota-los/05.jpg", "photos/tnh-zabota-los/06.jpg", "photos/tnh-zabota-los/07.jpg", "photos/tnh-zabota-los/08.jpg", "photos/tnh-zabota-los/09.jpg", "photos/tnh-zabota-los/10.jpg", "photos/tnh-zabota-los/11.jpg", "photos/tnh-zabota-los/12.jpg", "photos/tnh-zabota-los/13.jpg"],
@@ -220,6 +226,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Резервуары хранения" },
 			{ label: "Техника", value: "фасадная роспись" },
+			{ label: "Площадь", value: "1 000 м²" },
 		],
 		media: {
 			photos: ["photos/tnh-zabota-rezervuary/01.jpg", "photos/tnh-zabota-rezervuary/02.jpg", "photos/tnh-zabota-rezervuary/03.jpg", "photos/tnh-zabota-rezervuary/04.jpg", "photos/tnh-zabota-rezervuary/05.jpg", "photos/tnh-zabota-rezervuary/06.jpg", "photos/tnh-zabota-rezervuary/07.jpg", "photos/tnh-zabota-rezervuary/08.jpg"],
@@ -237,6 +244,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Резервуары хранения" },
 			{ label: "Техника", value: "фасадная роспись" },
+			{ label: "Площадь", value: "738 м²" },
 		],
 		media: {
 			photos: ["photos/tnh-polimernaya-shishka/01.jpg", "photos/tnh-polimernaya-shishka/02.jpg", "photos/tnh-polimernaya-shishka/03.jpg", "photos/tnh-polimernaya-shishka/04.jpg", "photos/tnh-polimernaya-shishka/05.jpg", "photos/tnh-polimernaya-shishka/06.jpg"],
@@ -254,7 +262,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Стена установки катализаторов и подготовки сырья" },
 			{ label: "Техника", value: "фасадная роспись" },
-			{ label: "Площадь", value: "более 150 м²" },
+			{ label: "Площадь", value: "151 м²" },
 		],
 		media: {
 			photos: ["photos/tnh-sotvorchestvo/01.jpg", "photos/tnh-sotvorchestvo/02.jpg", "photos/tnh-sotvorchestvo/03.jpg", "photos/tnh-sotvorchestvo/04.jpg"],
@@ -272,6 +280,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Резервуары" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "500 м²" },
 		],
 		media: {
 			photos: ["photos/kos-stihi-tukaya/01.jpg", "photos/kos-stihi-tukaya/02.jpg", "photos/kos-stihi-tukaya/03.jpg", "photos/kos-stihi-tukaya/04.jpg", "photos/kos-stihi-tukaya/05.jpg", "photos/kos-stihi-tukaya/06.jpg", "photos/kos-stihi-tukaya/07.jpg", "photos/kos-stihi-tukaya/08.jpg"],
@@ -289,6 +298,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Ресиверы" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "1 316 м²" },
 		],
 		media: {
 			photos: ["photos/kos-tulpany/01.jpg", "photos/kos-tulpany/02.jpg", "photos/kos-tulpany/03.jpg", "photos/kos-tulpany/04.jpg", "photos/kos-tulpany/05.jpg", "photos/kos-tulpany/06.jpg"],
@@ -306,6 +316,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Факел закрытого типа" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "394 м²" },
 		],
 		media: {
 			photos: ["photos/kos-ognenniy-sokol/01.jpg", "photos/kos-ognenniy-sokol/02.jpg", "photos/kos-ognenniy-sokol/03.jpg", "photos/kos-ognenniy-sokol/04.jpg", "photos/kos-ognenniy-sokol/05.jpg", "photos/kos-ognenniy-sokol/06.jpg"],
@@ -323,9 +334,10 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства ГБК" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "700 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-portal-neftehimiyu/01.jpg", "photos/nknh-portal-neftehimiyu/02.jpg", "photos/nknh-portal-neftehimiyu/03.jpg", "photos/nknh-portal-neftehimiyu/04.jpg", "photos/nknh-portal-neftehimiyu/05.jpg", "photos/nknh-portal-neftehimiyu/06.jpg", "photos/nknh-portal-neftehimiyu/07.jpg", "photos/nknh-portal-neftehimiyu/08.jpg", "photos/nknh-portal-neftehimiyu/09.jpg", "photos/nknh-portal-neftehimiyu/10.jpg", "photos/nknh-portal-neftehimiyu/11.jpg", "photos/nknh-portal-neftehimiyu/12.jpg", "photos/nknh-portal-neftehimiyu/13.jpg", "photos/nknh-portal-neftehimiyu/14.jpg", "photos/nknh-portal-neftehimiyu/15.jpg", "photos/nknh-portal-neftehimiyu/16.jpg", "photos/nknh-portal-neftehimiyu/17.jpg", "photos/nknh-portal-neftehimiyu/18.jpg"],
+			photos: ["photos/nknh-portal-neftehimiyu/01.jpg", "photos/nknh-portal-neftehimiyu/02.jpg", "photos/nknh-portal-neftehimiyu/03.jpg", "photos/nknh-portal-neftehimiyu/04.jpg", "photos/nknh-portal-neftehimiyu/05.jpg", "photos/nknh-portal-neftehimiyu/06.jpg", "photos/nknh-portal-neftehimiyu/07.jpg", "photos/nknh-portal-neftehimiyu/08.jpg", "photos/nknh-portal-neftehimiyu/09.jpg", "photos/nknh-portal-neftehimiyu/10.jpg"],
 			videos: [],
 		},
 	},
@@ -340,9 +352,28 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства ГБК" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "90 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-sotvorenie-kauchuka/01.jpg", "photos/nknh-sotvorenie-kauchuka/02.jpg", "photos/nknh-sotvorenie-kauchuka/03.jpg", "photos/nknh-sotvorenie-kauchuka/04.jpg", "photos/nknh-sotvorenie-kauchuka/05.jpg", "photos/nknh-sotvorenie-kauchuka/06.jpg", "photos/nknh-sotvorenie-kauchuka/07.jpg", "photos/nknh-sotvorenie-kauchuka/08.jpg", "photos/nknh-sotvorenie-kauchuka/09.jpg", "photos/nknh-sotvorenie-kauchuka/10.jpg", "photos/nknh-sotvorenie-kauchuka/11.jpg", "photos/nknh-sotvorenie-kauchuka/12.jpg", "photos/nknh-sotvorenie-kauchuka/13.jpg", "photos/nknh-sotvorenie-kauchuka/14.jpg", "photos/nknh-sotvorenie-kauchuka/15.jpg", "photos/nknh-sotvorenie-kauchuka/16.jpg", "photos/nknh-sotvorenie-kauchuka/17.jpg", "photos/nknh-sotvorenie-kauchuka/18.jpg"],
+			photos: ["photos/nknh-sotvorenie-kauchuka/01.jpg"],
+			videos: [],
+		},
+	},
+	{
+		slug: "nknh-put-kauchuka",
+		facility: "НКНХ (Нижнекамскнефтехим)",
+		city: "Нижнекамск",
+		title: "Путь каучука",
+		year: "2023",
+		description: "Путь каучука разворачивается прямо по фасаду и эстакадам предприятия. Крупная химическая формула ведет от органического сырья через производство галобутилового каучука к конечному продукту – автомобильной шине. Так вытянутая архитектура промышленного объекта превращается в наглядную производственную цепочку. Один материал проходит весь маршрут, от молекулы до вещи, которой мы пользуемся каждый день.",
+		artist: null,
+		facts: [
+			{ label: "Объект", value: "эстакады" },
+			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
+			{ label: "Площадь", value: "270 м²" },
+		],
+		media: {
+			photos: ["photos/nknh-put-kauchuka/01.jpg", "photos/nknh-put-kauchuka/02.jpg"],
 			videos: [],
 		},
 	},
@@ -357,7 +388,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Резервуары" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
-			{ label: "Площадь", value: "2400–3200 м² (уточняется)" },
+			{ label: "Площадь", value: "3 200 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-reki/01.jpg", "photos/nknh-reki/02.jpg", "photos/nknh-reki/03.jpg", "photos/nknh-reki/04.jpg", "photos/nknh-reki/05.jpg", "photos/nknh-reki/06.jpg", "photos/nknh-reki/07.jpg", "photos/nknh-reki/08.jpg", "photos/nknh-reki/09.jpg", "photos/nknh-reki/10.jpg", "photos/nknh-reki/11.jpg", "photos/nknh-reki/12.jpg", "photos/nknh-reki/13.jpg", "photos/nknh-reki/14.jpg"],
@@ -375,7 +406,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Производственное здание завода бутилового каучука" },
 			{ label: "Техника", value: "фасадная роспись, кисти и аэрозольные краски" },
-			{ label: "Площадь", value: "600 м²" },
+			{ label: "Площадь", value: "600 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-avtobus/01.jpg"],
@@ -393,6 +424,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание операторной ЭП-600" },
 			{ label: "Техника", value: "печать на фасадных кассетах" },
+			{ label: "Площадь", value: "347 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-nasledie-mendeleeva/01.jpg", "photos/nknh-nasledie-mendeleeva/02.jpg", "photos/nknh-nasledie-mendeleeva/03.jpg", "photos/nknh-nasledie-mendeleeva/04.jpg", "photos/nknh-nasledie-mendeleeva/05.jpg", "photos/nknh-nasledie-mendeleeva/06.jpg", "photos/nknh-nasledie-mendeleeva/07.jpg", "photos/nknh-nasledie-mendeleeva/08.jpg", "photos/nknh-nasledie-mendeleeva/09.jpg"],
@@ -410,6 +442,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здания ремонтно-механического завода" },
 			{ label: "Техника", value: "печать на фасадных кассетах, декоративные фасадные элементы" },
+			{ label: "Площадь", value: "776,95 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-rmz/01.jpg", "photos/nknh-rmz/02.jpg", "photos/nknh-rmz/03.jpg"],
@@ -427,6 +460,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здания объединённых операторных" },
 			{ label: "Техника", value: "печать на фасадных кассетах" },
+			{ label: "Площадь", value: "402 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-kod-proizvodstva/01.jpg", "photos/nknh-kod-proizvodstva/02.jpg", "photos/nknh-kod-proizvodstva/03.jpg", "photos/nknh-kod-proizvodstva/04.jpg", "photos/nknh-kod-proizvodstva/05.jpg"],
@@ -444,6 +478,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Ресиверы" },
 			{ label: "Техника", value: "фасадная роспись, валики, краскопульт, аэрозольная краска" },
+			{ label: "Площадь", value: "146 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-geksen/01.jpg", "photos/nknh-geksen/02.jpg", "photos/nknh-geksen/03.jpg", "photos/nknh-geksen/04.jpg", "photos/nknh-geksen/05.jpg", "photos/nknh-geksen/06.jpg", "photos/nknh-geksen/07.jpg", "photos/nknh-geksen/08.jpg", "photos/nknh-geksen/09.jpg", "photos/nknh-geksen/10.jpg", "photos/nknh-geksen/11.jpg", "photos/nknh-geksen/12.jpg", "photos/nknh-geksen/13.jpg", "photos/nknh-geksen/14.jpg", "photos/nknh-geksen/15.jpg"],
@@ -461,6 +496,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здания ЦЗЛ" },
 			{ label: "Техника", value: "фасадная роспись, аэрозольная краска" },
+			{ label: "Площадь", value: "406 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-formula-kachestva/01.jpg", "photos/nknh-formula-kachestva/02.jpg", "photos/nknh-formula-kachestva/03.jpg"],
@@ -478,6 +514,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание ДССК" },
 			{ label: "Техника", value: "фасадная роспись, аэрозольная краска" },
+			{ label: "Площадь", value: "2 419 м²" },
 		],
 		media: {
 			photos: ["photos/nknh-formula-dvizheniya/01.jpg", "photos/nknh-formula-dvizheniya/02.jpg", "photos/nknh-formula-dvizheniya/03.jpg", "photos/nknh-formula-dvizheniya/04.jpg", "photos/nknh-formula-dvizheniya/05.jpg", "photos/nknh-formula-dvizheniya/06.jpg", "photos/nknh-formula-dvizheniya/07.jpg", "photos/nknh-formula-dvizheniya/08.jpg", "photos/nknh-formula-dvizheniya/09.jpg", "photos/nknh-formula-dvizheniya/10.jpg"],
@@ -495,7 +532,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства и резервуары Нижневартовского ГПЗ" },
 			{ label: "Техника", value: "фасадная роспись, смешанная техника" },
-			{ label: "Площадь", value: "650, 770, 300 и 780 м² (по объектам цикла)" },
+			{ label: "Площадь", value: "2 500 м²" },
 		],
 		media: {
 			photos: ["photos/nvgpz-oberegi-yugry/01.jpg", "photos/nvgpz-oberegi-yugry/02.jpg", "photos/nvgpz-oberegi-yugry/03.jpg", "photos/nvgpz-oberegi-yugry/04.jpg", "photos/nvgpz-oberegi-yugry/05.jpg", "photos/nvgpz-oberegi-yugry/06.jpg", "photos/nvgpz-oberegi-yugry/07.jpg", "photos/nvgpz-oberegi-yugry/08.jpg", "photos/nvgpz-oberegi-yugry/09.jpg", "photos/nvgpz-oberegi-yugry/10.jpg", "photos/nvgpz-oberegi-yugry/11.jpg"],
@@ -513,7 +550,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Резервуары Вынгапуровского ГПЗ" },
 			{ label: "Техника", value: "фасадная роспись, смешанная техника" },
-			{ label: "Площадь", value: "650 и 300 м²" },
+			{ label: "Площадь", value: "2 600 м²" },
 		],
 		media: {
 			photos: ["photos/vgpz-severnoe-siyanie/01.jpg", "photos/vgpz-severnoe-siyanie/02.jpg", "photos/vgpz-severnoe-siyanie/03.jpg"],
@@ -531,7 +568,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства" },
 			{ label: "Техника", value: "фасадная роспись" },
-			{ label: "Площадь", value: "520 м²" },
+			{ label: "Площадь", value: "520 м²" },
 		],
 		media: {
 			photos: ["photos/rvl-zemlyanika/01.jpg", "photos/rvl-zemlyanika/02.jpg"],
@@ -549,6 +586,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства" },
 			{ label: "Техника", value: "фасадная роспись" },
+			{ label: "Площадь", value: "2 135 м²" },
 		],
 		media: {
 			photos: ["photos/aghk-batiskaf/01.jpg", "photos/aghk-batiskaf/02.jpg", "photos/aghk-batiskaf/03.jpg", "photos/aghk-batiskaf/04.jpg", "photos/aghk-batiskaf/05.jpg", "photos/aghk-batiskaf/06.jpg", "photos/aghk-batiskaf/07.jpg", "photos/aghk-batiskaf/08.jpg"],
@@ -566,7 +604,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства" },
 			{ label: "Техника", value: "фасадная роспись" },
-			{ label: "Площадь", value: "1227 м²" },
+			{ label: "Площадь", value: "1 227 м²" },
 		],
 		media: {
 			photos: ["photos/aghk-tochka-sinergii/01.jpg", "photos/aghk-tochka-sinergii/02.jpg", "photos/aghk-tochka-sinergii/03.jpg", "photos/aghk-tochka-sinergii/04.jpg", "photos/aghk-tochka-sinergii/05.jpg"],
@@ -584,7 +622,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 		facts: [
 			{ label: "Объект", value: "Здание производства НБЛ" },
 			{ label: "Техника", value: "фасадная роспись, смешанная техника" },
-			{ label: "Площадь", value: "400 м²" },
+			{ label: "Площадь", value: "400 м²" },
 		],
 		media: {
 			photos: ["photos/vsk-put-molekuly/01.jpg", "photos/vsk-put-molekuly/02.jpg", "photos/vsk-put-molekuly/03.jpg", "photos/vsk-put-molekuly/04.jpg", "photos/vsk-put-molekuly/05.jpg", "photos/vsk-put-molekuly/06.jpg", "photos/vsk-put-molekuly/07.jpg", "photos/vsk-put-molekuly/08.jpg"],

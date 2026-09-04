@@ -107,8 +107,20 @@ async function processFolderGroup(obj, outPhotoDir, outVideoDir) {
 		}
 	}
 
-	let photoEntries = entries.filter((e) => PHOTO_EXT.has(e.ext));
-	const videoEntries = entries.filter((e) => VIDEO_EXT.has(e.ext));
+	// Необязательное поле `"exclude"` — имена файлов исходной папки, которые не
+	// должны попасть в объект. Нужно там, где заказчик отдал одну общую папку на
+	// несколько муралов: те же кадры позже пришли отдельными альбомами, и без
+	// исключения одно и то же фото показывалось бы сразу в нескольких карточках.
+	const excluded = new Set((obj.exclude ?? []).map((f) => nfc(f).toLowerCase()));
+	const isExcluded = (file) => excluded.has(nfc(file).toLowerCase());
+	for (const name of obj.exclude ?? []) {
+		if (!entries.some((e) => sameFile(e.file, name))) {
+			throw new Error(`Исключение "${name}" для ${obj.slug} не найдено среди файлов объекта (папки: ${obj.sourceFolders.join(', ')})`);
+		}
+	}
+
+	let photoEntries = entries.filter((e) => PHOTO_EXT.has(e.ext)).filter((e) => !isExcluded(e.file));
+	const videoEntries = entries.filter((e) => VIDEO_EXT.has(e.ext)).filter((e) => !isExcluded(e.file));
 	const unknownEntries = entries.filter((e) => !PHOTO_EXT.has(e.ext) && !VIDEO_EXT.has(e.ext));
 	for (const e of unknownEntries) console.warn(`[skip] неизвестное расширение ${e.ext}: ${e.folderName}/${e.file}`);
 
@@ -142,6 +154,14 @@ async function processFolderGroup(obj, outPhotoDir, outVideoDir) {
 		videoIndex += 1;
 		if (!existsSync(outVideoDir)) mkdirSync(outVideoDir, { recursive: true });
 		const dest = path.join(outVideoDir, `${String(videoIndex).padStart(2, '0')}.mp4`);
+		// SKIP_EXISTING_VIDEOS=1 — для прогонов, где меняются только фото или
+		// обложка: перекодировать те же ролики заново нечем оправдать, это
+		// минуты ffmpeg на объект. Список видео при этом не должен меняться —
+		// нумерация позиционная, и уже лежащий 02.mp4 останется старым файлом.
+		if (process.env.SKIP_EXISTING_VIDEOS === '1' && existsSync(dest)) {
+			console.log(`[video] ${obj.slug} <- ${folderName}/${file} (пропущен, уже собран)`);
+			continue;
+		}
 		console.log(`[video] ${obj.slug} <- ${folderName}/${file}`);
 		transcodeVideo(path.join(folder, file), dest);
 	}
