@@ -26,6 +26,9 @@ rsync -az --delete \
   -e "ssh -i $SSH_KEY -o BatchMode=yes" \
   "$LOCAL_PROJECT/dist/" "$HOST:$REMOTE_DIR/"
 
+echo "==> Конфигурация nginx (единственный источник — файл в репозитории)"
+scp -i "$SSH_KEY" -o BatchMode=yes "$LOCAL_PROJECT/deploy/nginx-artnazavod.conf" "$HOST:/etc/nginx/sites-available/artnazavod"
+
 echo "==> Права и перезагрузка конфигурации"
 ssh -i "$SSH_KEY" -o BatchMode=yes "$HOST" "
   find $REMOTE_DIR -type d -exec chmod 755 {} + &&
