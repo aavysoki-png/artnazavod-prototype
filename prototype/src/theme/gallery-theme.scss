@@ -709,6 +709,13 @@
 	// карусели буквально удваивалась (2880px при вьюпорте 1440px).
 	box-sizing: border-box;
 	overflow-x: auto;
+	// Свайп пальцем (жалоба пользователя 10.09: «переключиться можно было
+	// только кнопками»). Прокрутка контейнера работала и раньше, но кадр после
+	// жеста никуда не «вставал»: активным оставался прежний слайд, а следующее
+	// же программное центрирование возвращало ленту назад. Лечится в паре —
+	// snap здесь доводит кадр до центра, а `syncActiveFromScroll` в
+	// ObjectCard.tsx делает активным тот, который реально оказался по центру.
+	scroll-snap-type: x mandatory;
 	// Скроллит программно (см. эффект центрирования в ObjectCard.tsx) — сам
 	// скроллбар не нужен, свайп на тачскрине при этом продолжает работать.
 	scrollbar-width: none;
@@ -735,6 +742,13 @@
 .gallery-card__carousel-item {
 	flex: none;
 	height: 100%;
+	scroll-snap-align: center;
+	// Тап/клик по кадру: соседний — переключает, центральный — открывает на
+	// весь экран (см. обработчик в ObjectCard.tsx). Видео курсора не получает:
+	// клик по нему уходит в контролы плеера, а не нам.
+	&:not(:has(.gallery-card__carousel-media--video)) {
+		cursor: pointer;
+	}
 	// Смещение к центру пересчитывает эффект в ObjectCard.tsx через
 	// offsetLeft/offsetWidth — эти свойства требуют обычного потока, поэтому
 	// сдвиг контейнера через padding-inline:50%, а не через transform.
@@ -813,6 +827,110 @@
 
 .gallery-card__media-nav--next {
 	right: var(--size-spacing-x4);
+}
+
+// Кнопка «на весь экран» — в правом верхнем углу карусели, там же, где её
+// ждут в любой галерее. По центру кадра её ставить некуда: центр занимает сам
+// кадр, по которому и так можно ткнуть.
+.gallery-card__media-expand {
+	position: absolute;
+	top: var(--size-spacing-x4);
+	right: var(--size-spacing-x4);
+	opacity: 0.55;
+	transition: opacity 0.15s ease;
+}
+
+.gallery-card__media-expand:hover,
+.gallery-card__media-expand:focus-visible {
+	opacity: 1;
+}
+
+// ---------- Просмотр кадра на весь экран ----------
+
+// Слой живёт в портале (Modal из ДС), то есть вне карточки и вне её full-bleed
+// обёртки. `z-index: 100` — с запасом выше всего на странице (у остальных
+// правил максимум 1), чтобы не пересчитывать стек при каждой новой секции.
+.gallery-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	// Не сплошной чёрный: сквозь фон угадывается страница, с которой пришли, —
+	// просмотр читается как слой поверх неё, а не как переход в другое место.
+	background: rgba(0, 0, 0, 0.88);
+	padding: var(--size-spacing-x8);
+}
+
+.gallery-lightbox:focus-visible {
+	outline: none;
+}
+
+.gallery-lightbox__media {
+	// Кадр целиком, без обрезки — ровно то, ради чего просмотр и открывают.
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border-radius: var(--size-border-radius-x4);
+}
+
+// Полоса поверх кадра: счётчик слева, закрытие справа. Абсолютная, а не в
+// потоке, — иначе она отъедала бы высоту у самого кадра.
+.gallery-lightbox__bar {
+	position: absolute;
+	top: var(--size-spacing-x4);
+	left: var(--size-spacing-x4);
+	right: var(--size-spacing-x4);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--size-spacing-x4);
+}
+
+.gallery-lightbox__nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	opacity: 0.7;
+	transition: opacity 0.15s ease;
+}
+
+.gallery-lightbox__nav:hover,
+.gallery-lightbox__nav:focus-visible {
+	opacity: 1;
+}
+
+.gallery-lightbox__nav--prev {
+	left: var(--size-spacing-x4);
+}
+
+.gallery-lightbox__nav--next {
+	right: var(--size-spacing-x4);
+}
+
+.gallery-lightbox__hint {
+	position: absolute;
+	bottom: var(--size-spacing-x4);
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0;
+}
+
+@media (max-width: 600px) {
+	// На телефоне кадр должен занимать экран целиком: поля здесь остаются
+	// только чтобы стрелки и крестик не липли к самым краям.
+	.gallery-lightbox {
+		padding: var(--size-spacing-x10) var(--size-spacing-x2);
+	}
+
+	// Подсказка про Esc и клик по фону на тачскрине неверна — там закрывают
+	// крестиком или свайпают; отдельный текст ради этого не заводим.
+	.gallery-lightbox__hint {
+		display: none;
+	}
 }
 
 .gallery-card__expanded-body {

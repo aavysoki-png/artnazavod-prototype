@@ -4,14 +4,14 @@ import { Icon, IconButton, Typography } from '@sibur/design-system-react';
 import { Icons } from '@sibur/design-tokens/js/iconfont';
 
 import type { ArtObject } from '../data/objects';
+import { MediaLightbox } from './MediaLightbox';
+import type { MediaItem } from './MediaLightbox';
 
 interface ObjectCardProps {
 	readonly object: ArtObject;
 	readonly expanded: boolean;
 	readonly onToggle: (slug: string) => void;
 }
-
-type MediaItem = { kind: 'photo'; src: string } | { kind: 'video'; src: string };
 
 /**
  * Карточка объекта — единственный компонент, который несёт Inline Expansion
@@ -33,6 +33,19 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 	const carouselRef = useRef<HTMLDivElement>(null);
 	const mediaWrapRef = useRef<HTMLDivElement>(null);
 	const [activeMedia, setActiveMedia] = useState(0);
+	// Индекс кадра, открытого на весь экран, либо null. Держится отдельно от
+	// `activeMedia`: пролистав в полноэкранном просмотре, пользователь ждёт,
+	// что после закрытия карусель окажется на том же кадре, — синхронизация
+	// идёт в момент закрытия, а не на каждом шаге, чтобы карусель под слоем не
+	// дёргалась скроллом.
+	const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+	// Свайп по карусели — обычная прокрутка контейнера, поэтому активный кадр
+	// приходится вычислять из позиции скролла (см. syncActiveFromScroll).
+	// Эти два ref разделяют «скроллит пользователь» и «скроллим мы сами»:
+	// иначе программное центрирование читалось бы как жест и наоборот.
+	const programmaticScrollUntil = useRef(0);
+	const skipNextCentering = useRef(false);
+	const scrollSyncFrame = useRef(0);
 	// Фото/видео с фотобанка — внешний ресурс, запрос может не отдаться (404,
 	// сеть). Без обработки ошибки браузер молча показывает битую иконку —
 	// здесь вместо неё та же честная градиентная заглушка, что и для
@@ -70,16 +83,56 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 		const activeEl = container?.children[activeMedia] as HTMLElement | undefined;
 		if (!container || !activeEl) return;
 		const target = activeEl.offsetLeft + activeEl.offsetWidth / 2 - container.clientWidth / 2;
-		container.scrollTo({
-			left: target,
-			behavior: instant || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-		});
+		const instantly = instant || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		// Пока идёт наша собственная прокрутка, события scroll игнорируются —
+		// иначе промежуточные кадры плавной анимации на секунду сделали бы
+		// активным тот слайд, мимо которого она как раз проезжает.
+		programmaticScrollUntil.current = Date.now() + (instantly ? 120 : 700);
+		container.scrollTo({ left: target, behavior: instantly ? 'auto' : 'smooth' });
 	};
 
 	useEffect(() => {
+		// Индекс, только что вычисленный из позиции скролла, центрировать не
+		// нужно: палец уже поставил кадр туда, куда хотел, а scroll-snap довёл
+		// его до центра. Программный scrollTo поверх инерции жеста на iOS даёт
+		// рывок — ровно то, что раньше выглядело как «свайп не работает».
+		if (skipNextCentering.current) {
+			skipNextCentering.current = false;
+			return;
+		}
 		centerActiveMedia();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeMedia, expanded]);
+
+	useEffect(() => () => cancelAnimationFrame(scrollSyncFrame.current), []);
+
+	// Активный кадр по факту прокрутки: ближайший к центру контейнера. Считаем
+	// по реальным offsetLeft/offsetWidth, потому что слайды разной ширины —
+	// шага, который можно было бы просто поделить, здесь нет.
+	const syncActiveFromScroll = () => {
+		if (Date.now() < programmaticScrollUntil.current || scrollSyncFrame.current) return;
+		scrollSyncFrame.current = requestAnimationFrame(() => {
+			scrollSyncFrame.current = 0;
+			const container = carouselRef.current;
+			if (!container) return;
+			const center = container.scrollLeft + container.clientWidth / 2;
+			let nearest = 0;
+			let nearestDistance = Number.POSITIVE_INFINITY;
+			for (let i = 0; i < container.children.length; i += 1) {
+				const el = container.children[i] as HTMLElement;
+				const distance = Math.abs(el.offsetLeft + el.offsetWidth / 2 - center);
+				if (distance < nearestDistance) {
+					nearestDistance = distance;
+					nearest = i;
+				}
+			}
+			setActiveMedia((prev) => {
+				if (prev === nearest) return prev;
+				skipNextCentering.current = true;
+				return nearest;
+			});
+		});
+	};
 
 	const photo = object.media.photos[0] ?? null;
 
@@ -159,11 +212,25 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 				    полей — то, от чего явно отказались). Это относится и к
 				    активному слайду: до 10.09 он один расширялся до ширины колонки
 				    и из-за этого кропался, см. комментарий в gallery-theme.scss. */}
-				<div className="gallery-card__carousel" ref={carouselRef}>
+				<div className="gallery-card__carousel" ref={carouselRef} onScroll={syncActiveFromScroll}>
 					{media.map((item, i) => {
 						const isError = failedSrcs.has(item.src);
 						return (
-							<div key={`${item.kind}-${item.src}-${i}`} className={`gallery-card__carousel-item${i === activeMedia ? ' gallery-card__carousel-item--active' : ''}`}>
+							<div
+								key={`${item.kind}-${item.src}-${i}`}
+								className={`gallery-card__carousel-item${i === activeMedia ? ' gallery-card__carousel-item--active' : ''}`}
+								// Тап по кадру (запрос пользователя, 2026-09-10): по
+								// соседнему — переключиться на него, по центральному —
+								// открыть на весь экран. До этого клик по слайду не был
+								// обработан вовсе, и на мобильной единственным способом
+								// сменить кадр оставались кнопки-стрелки.
+								//
+								// Видео исключено: тап по нему попадает в собственные
+								// контролы плеера (play/pause, перемотка), перехватывать
+								// их переключением слайда нельзя. На весь экран видео
+								// разворачивается своей же кнопкой в плеере.
+								onClick={item.kind === 'video' ? undefined : () => (i === activeMedia ? setLightboxIndex(i) : goTo(i))}
+							>
 								{item.kind === 'video' && !isError ? (
 									<video
 										className="gallery-card__carousel-media gallery-card__carousel-media--video"
@@ -200,6 +267,19 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 						);
 					})}
 				</div>
+
+				{/* Кнопка раскрытия — не только дубль тапа по кадру: тап мышью и
+				    пальцем есть, а с клавиатуры открыть просмотр иначе было бы
+				    нечем (сам слайд — не фокусируемый элемент). Заодно это
+				    единственная видимая подсказка, что кадр вообще
+				    раскрывается. */}
+				<IconButton
+					variant="overlay"
+					iconName={Icons.Expand}
+					aria-label="Открыть кадр на весь экран"
+					className="gallery-card__media-expand"
+					onClick={() => setLightboxIndex(activeMedia)}
+				/>
 
 				{media.length > 1 ? (
 					<>
@@ -298,6 +378,22 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 					</dl>
 				) : null}
 			</div>
+
+			{lightboxIndex !== null ? (
+				<MediaLightbox
+					media={media}
+					index={lightboxIndex}
+					title={object.title}
+					onIndexChange={(next) => setLightboxIndex(((next % media.length) + media.length) % media.length)}
+					onClose={() => {
+						// Карусель встаёт на кадр, на котором просмотр закрыли, —
+						// иначе пролистанное на весь экран потерялось бы.
+						setActiveMedia(lightboxIndex);
+						setLightboxIndex(null);
+						mediaWrapRef.current?.focus({ preventScroll: true });
+					}}
+				/>
+			) : null}
 		</div>
 	);
 }
