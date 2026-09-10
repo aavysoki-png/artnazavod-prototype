@@ -648,3 +648,32 @@ export function yearOf(object: ArtObject): number | null {
 
 const KNOWN_YEARS = ART_OBJECTS.map(yearOf).filter((y): y is number => y !== null);
 export const YEARS_LABEL = `${Math.min(...KNOWN_YEARS)}–${Math.max(...KNOWN_YEARS)}`;
+
+/**
+ * Год для сортировки плитки — в отличие от `yearOf` берёт ПОСЛЕДНИЕ четыре
+ * цифры: у диапазона «2022/2026» это 2026. Разница осознанная — на
+ * таймлайне объект стоит в году, когда мурал появился (`yearOf`), а в
+ * сортировке «сначала новые» участвует годом последней работы над ним.
+ * Сейчас расходятся ровно на одном объекте — единственном с диапазоном.
+ */
+export function sortYearOf(object: ArtObject): number | null {
+	if (!object.year) return null;
+	const matches = object.year.match(/\d{4}/g);
+	return matches ? Number(matches[matches.length - 1]) : null;
+}
+
+/**
+ * Площадь мурала в м² числом — вытащена из факта «Площадь» («3 500 м²»,
+ * «565,16 м²»). Разделитель разрядов у заказчика — неразрывный пробел,
+ * дробная часть через запятую. У объектов, где площадь не указана,
+ * возвращает `null`: на 2026-09-10 таких два из 33.
+ */
+export function areaOf(object: ArtObject): number | null {
+	const fact = object.facts.find((f) => f.label === 'Площадь');
+	if (!fact) return null;
+	const normalized = fact.value.replace(/[\s\u00a0\u202f]/g, '').replace(',', '.');
+	const match = normalized.match(/[\d.]+/);
+	if (!match) return null;
+	const value = Number(match[0]);
+	return Number.isFinite(value) ? value : null;
+}

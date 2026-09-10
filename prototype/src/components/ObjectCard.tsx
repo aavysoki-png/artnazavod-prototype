@@ -155,8 +155,10 @@ export function ObjectCard({ object, expanded, onToggle }: ObjectCardProps) {
 				{/* Карусель по образцу заказчика: центральный слайд виден целиком,
 				    соседние — частично по бокам, обрезаны краем контейнера. Высота
 				    фиксирована, ширина каждого слайда — по его реальным пропорциям
-				    (photo/video сами задают ширину через `height:100%`, без
-				    object-fit и без серых полей — то, от чего явно отказались). */}
+				    (photo/video сами задают ширину через `height:100%`, без серых
+				    полей — то, от чего явно отказались). Это относится и к
+				    активному слайду: до 10.09 он один расширялся до ширины колонки
+				    и из-за этого кропался, см. комментарий в gallery-theme.scss. */}
 				<div className="gallery-card__carousel" ref={carouselRef}>
 					{media.map((item, i) => {
 						const isError = failedSrcs.has(item.src);
