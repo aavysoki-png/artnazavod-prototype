@@ -1164,3 +1164,40 @@ HTTPS-страница тянет HTTP-ресурс, браузеры такое
 
 Развёрнуто на боевой ВПС (`deploy-prod.sh`) и на стенд dribble
 (`deploy.sh`), иконки сверены по sha256 с локальными на обоих.
+
+### GitHub оживлён как зеркало без медиа (11.09)
+
+Внешний приватный `github.com/aavysoki-png/artnazavod-prototype` стоял на
+`main = 4bd3464` с 21.08. Пользователь попросил его оживить; `origin`
+по-прежнему корп-GitLab, GitHub вернулся отдельным remote `github`.
+
+Развилка была в медиа: с 04.09 в репозитории лежат 251 фото (~47 МБ
+blob-ами) и 18 видео (440 МБ через LFS), а во внешнем GitHub они
+осознанно исключались — права на публикацию вне sibur.ru не оговорены.
+Решение пользователя: **на GitHub только код, без медиа**.
+
+Линия GitLab после переезда имеет другой корень, поэтому история не
+склеивалась напрямую. Рецепт (воспроизводить при следующем зеркалировании):
+
+```bash
+git replace --graft <первый коммит после переезда> 4bd3464   # старый tip GitHub
+git branch -f github-main <текущая верхушка>
+FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --prune-empty \
+  --index-filter 'git rm -r --cached -q --ignore-unmatch \
+     prototype/public/photos prototype/public/media prototype/public/hero' \
+  -- 4bd3464..github-main
+git push github github-main:main        # fast-forward, без --force
+git replace -d <sha>                    # графт снять, рабочую линию не трогать
+git for-each-ref --format='%(refname)' refs/original/ | xargs -n1 git update-ref -d
+```
+
+Результат: `main = fff9da9`, 23 коммита, история продолжает старую
+(fast-forward, ничего не затёрто), `prototype/public/` содержит только
+иконки и `logo/`, LFS-объектов в ветке нет — квота GitHub не тратится.
+Коммиту про медиа переписано сообщение, чтобы не обещать файлов, которых
+в этой линии нет. `prototype/evidence/` остаётся — он был на GitHub и
+раньше.
+
+Пуш — Basic auth через `http.extraHeader` (см. память
+`reference_git_push_auth_workaround`), токен временный, в `.git/config`
+не попадает.
