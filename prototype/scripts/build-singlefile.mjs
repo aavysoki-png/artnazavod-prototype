@@ -165,6 +165,10 @@ for (const rel of ['media', 'hero']) {
 // браузер такие ссылки просто не запрашивает, там незаметно).
 const logoSrc = join(distDir, 'logo');
 if (existsSync(logoSrc)) cpSync(logoSrc, join(outDir, 'logo'), { recursive: true });
+for (const icon of ['favicon-32.png', 'favicon.png', 'apple-touch-icon.png']) {
+	const src = join(distDir, icon);
+	if (existsSync(src)) cpSync(src, join(outDir, icon));
+}
 
 // Ленивые чанки (сейчас — MapSection) сюда сознательно НЕ копируются —
 // пробовал, ломает всё приложение (см. пояснение в шапке файла). Секция
