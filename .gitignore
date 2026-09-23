@@ -21,6 +21,8 @@
 
 # Node / сборка
 node_modules/
+# без слэша: в GitHub-зеркале node_modules — симлинк на /tmp/photo-tools (PHOTOS.md), а `node_modules/` симлинк не ловит
+/prototype/node_modules
 /prototype/dist/
 /prototype/dist-singlefile/
 *.tsbuildinfo

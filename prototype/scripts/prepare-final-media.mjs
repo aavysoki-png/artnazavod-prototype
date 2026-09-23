@@ -20,8 +20,14 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import ffmpegPath from 'ffmpeg-static';
 import sharp from 'sharp';
+
+// PHOTOS_ONLY=1 — только фото, видео объекта не трогаются. Нужен там, где
+// видео нет вовсе: в GitHub-зеркале (public/media и public/hero туда не
+// едут), откуда фото обновляет агент без доступа к рабочей машине. Тогда и
+// ffmpeg-static не нужен — поэтому импорт ленивый.
+const PHOTOS_ONLY = process.env.PHOTOS_ONLY === '1';
+const ffmpegPath = PHOTOS_ONLY ? null : (await import('ffmpeg-static')).default;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const prototypeRoot = path.resolve(__dirname, '..');
@@ -150,6 +156,10 @@ async function processFolderGroup(obj, outPhotoDir, outVideoDir) {
 	}
 
 	let videoIndex = 0;
+	if (PHOTOS_ONLY) {
+		if (videoEntries.length) console.log(`[video] ${obj.slug}: ${videoEntries.length} видео пропущено (PHOTOS_ONLY)`);
+		return { photoCount: photoIndex, videoCount: null };
+	}
 	for (const { folderName, folder, file } of videoEntries) {
 		videoIndex += 1;
 		if (!existsSync(outVideoDir)) mkdirSync(outVideoDir, { recursive: true });
@@ -175,6 +185,9 @@ async function main() {
 	// это несоразмерно).
 	const heroOnly = process.argv[2] === '--hero';
 	const onlySlug = heroOnly ? null : process.argv[2]; // опционально: обработать один slug для отладки, не трогая остальные
+	// Полный прогон и --hero чистят public/media|hero и кодируют видео — с
+	// PHOTOS_ONLY это снесло бы видео, ничего не положив взамен.
+	if (PHOTOS_ONLY && !onlySlug) throw new Error('PHOTOS_ONLY=1 работает только с одним объектом: node scripts/prepare-final-media.mjs <slug>');
 	// Полный прогон начинается с чистого листа, чтобы в public не остались
 	// файлы объектов, которых уже нет в манифесте. Частичный (`<slug>`) и
 	// `--hero` чистить public/photos|media НЕ должны — иначе прогон ради
