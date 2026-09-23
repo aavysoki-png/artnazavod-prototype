@@ -38,7 +38,7 @@ git "${AUTH[@]}" fetch -q "$URL" main
 TIP=$(git rev-parse FETCH_HEAD)
 
 # Последний коммит зеркала, собранный из рабочей линии, и его источник.
-SYNCED=$(git log --format='%H %(trailers:key=Source-Commit,valueonly,separator=)' "$TIP" | awk 'NF==2{print; exit}')
+SYNCED=$(git log --format='%H %(trailers:key=Source-Commit,valueonly,separator=)' "$TIP" | awk 'NF==2 && !f{print; f=1}')  # без exit: иначе SIGPIPE у git log + pipefail роняют скрипт молча
 SYNCED_MIRROR=${SYNCED%% *}
 SYNCED_SOURCE=${SYNCED##* }
 [ -n "$SYNCED_MIRROR" ] || { echo "В зеркале нет коммита с Source-Commit — начальную синхронизацию делать вручную (журнал, 23.09)"; exit 1; }
