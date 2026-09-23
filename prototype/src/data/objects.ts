@@ -570,7 +570,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "360 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-garmoniya/01.jpg"],
+			photos: ["photos/nknh-garmoniya/01.jpg", "photos/nknh-garmoniya/02.jpg", "photos/nknh-garmoniya/03.jpg", "photos/nknh-garmoniya/04.jpg", "photos/nknh-garmoniya/05.jpg", "photos/nknh-garmoniya/06.jpg"],
 			videos: [],
 		},
 	},
