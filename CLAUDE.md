@@ -1327,7 +1327,22 @@ pull` (забирает только `public/photos` и манифест, пер
   не забран в рабочую линию (нет в `github-main` и в трейлерах Mirror-Pulled).
 - `PHOTOS.md`: шаг 8 (дождаться проверки, чинить по логу, отдать ссылку на превью).
 
-Осталось (внешние шаги, ждут подтверждения): деплой нового бандла+nginx+шлюза,
-два ключа в authorized_keys, секреты в GitHub (ARTNAZAVOD_SSH_PREVIEW,
-ARTNAZAVOD_SSH_PROD, ARTNAZAVOD_KNOWN_HOSTS), коммит, пуш в зеркало,
-сквозной тест тестовым PR.
+Раскатано 28.09 (с подтверждения пользователя):
+- `deploy-prod.sh` — новый бандл, nginx, шлюз; headless по живому адресу
+  зелёный; `photos/x.html` и `photos/.source` отдают 404, index.json — no-cache.
+- Ключи CI (ed25519, `artnazavod-ci-prod`/`-preview`) — в authorized_keys root'а
+  с `command=...,restrict`; бэкап `~/.ssh/authorized_keys.bak-2026-09-28`
+  на сервере. Приватные ключи — только в секретах GitHub.
+- Секреты в зеркале: ARTNAZAVOD_SSH_PROD, ARTNAZAVOD_SSH_PREVIEW,
+  ARTNAZAVOD_KNOWN_HOSTS (шифрование — PyNaCl sealed box через API).
+- Коммит ff49b18 в `gallery-sort-and-carousel-fit` (в GitLab не пушен, как и
+  предыдущие), зеркало `main = 68fe8aa`.
+- **Грабля:** OpenSSH 10 на сервере штрафует адрес за провалы входа
+  (PerSourcePenalties) — после пары отказов с неверным ключом соединения
+  отбиваются «Connection refused» минутами. Тесты шлюза гонять аккуратно,
+  в bash (zsh не разбивает `$OPTS` на слова — отсюда и были провалы).
+
+Риск (вынесен пользователю 28.09, решения по Pro нет): GitHub Free + приватный репозиторий — нет
+защиты `main` и environment-секретов; у коллеги (`ingens-nn`, write)
+workflow ветки может дотянуться до prod-ключа. Ущерб ограничен шлюзом:
+только jpg/json в `photos/`. Жёсткая гарантия — GitHub Pro.

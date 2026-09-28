@@ -60,13 +60,17 @@ pull)
 	echo; git diff --stat "$SYNCED_MIRROR" "$TIP"
 	OTHER=$(git diff --name-only "$SYNCED_MIRROR" "$TIP" -- . "${PULL_PATHS[@]/#/:!}")
 	[ -z "$OTHER" ] || { echo; echo "Не забираются (вне PHOTOS.md):"; echo "$OTHER"; }
-	git diff --binary "$SYNCED_MIRROR" "$TIP" -- "${PULL_PATHS[@]}" | git apply --index
+	git diff --quiet "$SYNCED_MIRROR" "$TIP" -- "${PULL_PATHS[@]}" \
+		|| git diff --binary "$SYNCED_MIRROR" "$TIP" -- "${PULL_PATHS[@]}" | git apply --index
 	# objects.ts в зеркале не трогают (там нет видео) — пересобираем здесь,
 	# где видео есть.
 	(cd prototype && node scripts/build-objects-ts.mjs >/dev/null)
 	git add prototype/src/data/objects.ts
 	SUBJECTS=$(git log --format='- %s' "$SYNCED_MIRROR..$TIP" | grep -v '^- Merge ' || true)
-	git commit -q -m "Фото из GitHub-зеркала (правки коллег по PHOTOS.md)
+	# --allow-empty: PR и его откат в сумме могут ничего не менять, а отметка
+	# Mirror-Pulled всё равно нужна — по ней push и deploy-prod.sh видят, что
+	# коммиты зеркала забраны.
+	git commit -q --allow-empty -m "Фото из GitHub-зеркала (правки коллег по PHOTOS.md)
 
 ${SUBJECTS}" --trailer "Mirror-Pulled: $TIP" --trailer "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 	git log --oneline -1
