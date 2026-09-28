@@ -1,0 +1,78 @@
+# PR с фото (PHOTOS.md): проверка + превью на боевом сервере.
+# Коллега видит результат сама по ссылке в комментарии; владельцу остаётся
+# посмотреть превью и нажать Merge — выкладку делает photos-deploy.yml.
+#
+# Ключ ARTNAZAVOD_SSH_PREVIEW умеет только превью (deploy/content-gate.sh):
+# этот workflow берётся из ветки PR, и ветка может его изменить.
+name: Фото — проверка и превью
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    paths:
+      - prototype/public/photos/**
+      - prototype/scripts/final-content-manifest.json
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: photos-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+env:
+  HOST: 194.58.118.240
+  PR: pr-${{ github.event.number }}
+
+jobs:
+  preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Проверка фото
+        run: node prototype/scripts/check-photos-pr.mjs "origin/${{ github.base_ref }}"
+
+      - name: Индекс фото
+        run: node prototype/scripts/build-objects-ts.mjs --index-only
+
+      - name: Ключ
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.ARTNAZAVOD_SSH_PREVIEW }}" > ~/.ssh/key && chmod 600 ~/.ssh/key
+          echo "${{ secrets.ARTNAZAVOD_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Превью на сервере
+        run: |
+          ssh -i ~/.ssh/key "root@$HOST" "open $PR"
+          rsync -rc --delete --chmod=D755,F644 --rsync-path="$PR" \
+            -e "ssh -i ~/.ssh/key" prototype/public/photos/ "root@$HOST:./"
+          code=$(curl -s -o /dev/null -w '%{http_code}' "http://$HOST/preview/$PR/photos/index.json")
+          [ "$code" = 200 ] || { echo "превью не отдаётся: $code"; exit 1; }
+
+      - name: Ссылка в PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          body="Превью: http://artnazavod.sibur.ru/preview/$PR/ (коммит ${GITHUB_SHA:0:7}, обновляется при каждом пуше в ветку). После Merge фото уйдут на сайт автоматически."
+          gh pr comment "${{ github.event.number }}" --edit-last --body "$body" 2>/dev/null \
+            || gh pr comment "${{ github.event.number }}" --body "$body"
+
+  close:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Убрать превью
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.ARTNAZAVOD_SSH_PREVIEW }}" > ~/.ssh/key && chmod 600 ~/.ssh/key
+          echo "${{ secrets.ARTNAZAVOD_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/key "root@$HOST" "close $PR"

@@ -12,6 +12,8 @@
  * см. `excludedNoFolder` в манифесте.
  */
 
+import { photosFor } from './photoIndex';
+
 export interface ArtObjectMedia {
 	readonly photos: readonly string[];
 	readonly videos: readonly string[];
@@ -50,7 +52,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "3 500 м²" },
 		],
 		media: {
-			photos: ["photos/zsnh-sosedi-sibura/01.jpg", "photos/zsnh-sosedi-sibura/02.jpg", "photos/zsnh-sosedi-sibura/03.jpg", "photos/zsnh-sosedi-sibura/04.jpg", "photos/zsnh-sosedi-sibura/05.jpg", "photos/zsnh-sosedi-sibura/06.jpg", "photos/zsnh-sosedi-sibura/07.jpg", "photos/zsnh-sosedi-sibura/08.jpg", "photos/zsnh-sosedi-sibura/09.jpg", "photos/zsnh-sosedi-sibura/10.jpg", "photos/zsnh-sosedi-sibura/11.jpg", "photos/zsnh-sosedi-sibura/12.jpg", "photos/zsnh-sosedi-sibura/13.jpg", "photos/zsnh-sosedi-sibura/14.jpg", "photos/zsnh-sosedi-sibura/15.jpg", "photos/zsnh-sosedi-sibura/16.jpg", "photos/zsnh-sosedi-sibura/17.jpg", "photos/zsnh-sosedi-sibura/18.jpg", "photos/zsnh-sosedi-sibura/19.jpg", "photos/zsnh-sosedi-sibura/20.jpg", "photos/zsnh-sosedi-sibura/21.jpg", "photos/zsnh-sosedi-sibura/22.jpg"],
+			get photos() { return photosFor("zsnh-sosedi-sibura", ["photos/zsnh-sosedi-sibura/01.jpg", "photos/zsnh-sosedi-sibura/02.jpg", "photos/zsnh-sosedi-sibura/03.jpg", "photos/zsnh-sosedi-sibura/04.jpg", "photos/zsnh-sosedi-sibura/05.jpg", "photos/zsnh-sosedi-sibura/06.jpg", "photos/zsnh-sosedi-sibura/07.jpg", "photos/zsnh-sosedi-sibura/08.jpg", "photos/zsnh-sosedi-sibura/09.jpg", "photos/zsnh-sosedi-sibura/10.jpg", "photos/zsnh-sosedi-sibura/11.jpg", "photos/zsnh-sosedi-sibura/12.jpg", "photos/zsnh-sosedi-sibura/13.jpg", "photos/zsnh-sosedi-sibura/14.jpg", "photos/zsnh-sosedi-sibura/15.jpg", "photos/zsnh-sosedi-sibura/16.jpg", "photos/zsnh-sosedi-sibura/17.jpg", "photos/zsnh-sosedi-sibura/18.jpg", "photos/zsnh-sosedi-sibura/19.jpg", "photos/zsnh-sosedi-sibura/20.jpg", "photos/zsnh-sosedi-sibura/21.jpg", "photos/zsnh-sosedi-sibura/22.jpg"]); },
 			videos: ["media/zsnh-sosedi-sibura/01.mp4"],
 		},
 	},
@@ -67,7 +69,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Техника", value: "фасадная роспись" },
 		],
 		media: {
-			photos: ["photos/zsnh-mendeleev/01.jpg"],
+			get photos() { return photosFor("zsnh-mendeleev", ["photos/zsnh-mendeleev/01.jpg"]); },
 			videos: [],
 		},
 	},
@@ -85,7 +87,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "360 м²" },
 		],
 		media: {
-			photos: ["photos/zsnh-man/01.jpg", "photos/zsnh-man/02.jpg", "photos/zsnh-man/03.jpg"],
+			get photos() { return photosFor("zsnh-man", ["photos/zsnh-man/01.jpg", "photos/zsnh-man/02.jpg", "photos/zsnh-man/03.jpg"]); },
 			videos: ["media/zsnh-man/01.mp4"],
 		},
 	},
@@ -103,7 +105,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "600 м²" },
 		],
 		media: {
-			photos: ["photos/zsnh-cpt-poliolefiny/01.jpg", "photos/zsnh-cpt-poliolefiny/02.jpg", "photos/zsnh-cpt-poliolefiny/03.jpg", "photos/zsnh-cpt-poliolefiny/04.jpg", "photos/zsnh-cpt-poliolefiny/05.jpg", "photos/zsnh-cpt-poliolefiny/06.jpg"],
+			get photos() { return photosFor("zsnh-cpt-poliolefiny", ["photos/zsnh-cpt-poliolefiny/01.jpg", "photos/zsnh-cpt-poliolefiny/02.jpg", "photos/zsnh-cpt-poliolefiny/03.jpg", "photos/zsnh-cpt-poliolefiny/04.jpg", "photos/zsnh-cpt-poliolefiny/05.jpg", "photos/zsnh-cpt-poliolefiny/06.jpg"]); },
 			videos: [],
 		},
 	},
@@ -121,7 +123,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "188 м²" },
 		],
 		media: {
-			photos: ["photos/shp-zveri/01.jpg", "photos/shp-zveri/02.jpg", "photos/shp-zveri/03.jpg", "photos/shp-zveri/04.jpg", "photos/shp-zveri/05.jpg", "photos/shp-zveri/06.jpg", "photos/shp-zveri/07.jpg", "photos/shp-zveri/08.jpg", "photos/shp-zveri/09.jpg"],
+			get photos() { return photosFor("shp-zveri", ["photos/shp-zveri/01.jpg", "photos/shp-zveri/02.jpg", "photos/shp-zveri/03.jpg", "photos/shp-zveri/04.jpg", "photos/shp-zveri/05.jpg", "photos/shp-zveri/06.jpg", "photos/shp-zveri/07.jpg", "photos/shp-zveri/08.jpg", "photos/shp-zveri/09.jpg"]); },
 			videos: ["media/shp-zveri/01.mp4"],
 		},
 	},
@@ -139,7 +141,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "400 м²" },
 		],
 		media: {
-			photos: ["photos/shp-tri-stihii/01.jpg", "photos/shp-tri-stihii/02.jpg", "photos/shp-tri-stihii/03.jpg", "photos/shp-tri-stihii/04.jpg", "photos/shp-tri-stihii/05.jpg", "photos/shp-tri-stihii/06.jpg", "photos/shp-tri-stihii/07.jpg"],
+			get photos() { return photosFor("shp-tri-stihii", ["photos/shp-tri-stihii/01.jpg", "photos/shp-tri-stihii/02.jpg", "photos/shp-tri-stihii/03.jpg", "photos/shp-tri-stihii/04.jpg", "photos/shp-tri-stihii/05.jpg", "photos/shp-tri-stihii/06.jpg", "photos/shp-tri-stihii/07.jpg"]); },
 			videos: ["media/shp-tri-stihii/01.mp4"],
 		},
 	},
@@ -156,7 +158,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Техника", value: "фасадная роспись" },
 		],
 		media: {
-			photos: ["photos/shp-chistaya-rabota/01.jpg", "photos/shp-chistaya-rabota/02.jpg", "photos/shp-chistaya-rabota/03.jpg"],
+			get photos() { return photosFor("shp-chistaya-rabota", ["photos/shp-chistaya-rabota/01.jpg", "photos/shp-chistaya-rabota/02.jpg", "photos/shp-chistaya-rabota/03.jpg"]); },
 			videos: [],
 		},
 	},
@@ -174,7 +176,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "650 м²" },
 		],
 		media: {
-			photos: ["photos/kstovo-minin/01.jpg", "photos/kstovo-minin/02.jpg"],
+			get photos() { return photosFor("kstovo-minin", ["photos/kstovo-minin/01.jpg", "photos/kstovo-minin/02.jpg"]); },
 			videos: [],
 		},
 	},
@@ -192,7 +194,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "565,16 м²" },
 		],
 		media: {
-			photos: ["photos/kstovo-chkalov/01.jpg", "photos/kstovo-chkalov/02.jpg", "photos/kstovo-chkalov/03.jpg", "photos/kstovo-chkalov/04.jpg", "photos/kstovo-chkalov/05.jpg", "photos/kstovo-chkalov/06.jpg"],
+			get photos() { return photosFor("kstovo-chkalov", ["photos/kstovo-chkalov/01.jpg", "photos/kstovo-chkalov/02.jpg", "photos/kstovo-chkalov/03.jpg", "photos/kstovo-chkalov/04.jpg", "photos/kstovo-chkalov/05.jpg", "photos/kstovo-chkalov/06.jpg"]); },
 			videos: [],
 		},
 	},
@@ -210,7 +212,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "520 м²" },
 		],
 		media: {
-			photos: ["photos/rvl-zemlyanika/01.jpg", "photos/rvl-zemlyanika/02.jpg"],
+			get photos() { return photosFor("rvl-zemlyanika", ["photos/rvl-zemlyanika/01.jpg", "photos/rvl-zemlyanika/02.jpg"]); },
 			videos: [],
 		},
 	},
@@ -228,7 +230,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "1 500 м²" },
 		],
 		media: {
-			photos: ["photos/poliev-vivilen/01.jpg", "photos/poliev-vivilen/02.jpg", "photos/poliev-vivilen/03.jpg", "photos/poliev-vivilen/04.jpg", "photos/poliev-vivilen/05.jpg", "photos/poliev-vivilen/06.jpg"],
+			get photos() { return photosFor("poliev-vivilen", ["photos/poliev-vivilen/01.jpg", "photos/poliev-vivilen/02.jpg", "photos/poliev-vivilen/03.jpg", "photos/poliev-vivilen/04.jpg", "photos/poliev-vivilen/05.jpg", "photos/poliev-vivilen/06.jpg"]); },
 			videos: [],
 		},
 	},
@@ -246,7 +248,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "662 м²" },
 		],
 		media: {
-			photos: ["photos/tnh-zabota-los/01.jpg", "photos/tnh-zabota-los/02.jpg", "photos/tnh-zabota-los/03.jpg", "photos/tnh-zabota-los/04.jpg", "photos/tnh-zabota-los/05.jpg", "photos/tnh-zabota-los/06.jpg", "photos/tnh-zabota-los/07.jpg", "photos/tnh-zabota-los/08.jpg", "photos/tnh-zabota-los/09.jpg", "photos/tnh-zabota-los/10.jpg", "photos/tnh-zabota-los/11.jpg", "photos/tnh-zabota-los/12.jpg", "photos/tnh-zabota-los/13.jpg"],
+			get photos() { return photosFor("tnh-zabota-los", ["photos/tnh-zabota-los/01.jpg", "photos/tnh-zabota-los/02.jpg", "photos/tnh-zabota-los/03.jpg", "photos/tnh-zabota-los/04.jpg", "photos/tnh-zabota-los/05.jpg", "photos/tnh-zabota-los/06.jpg", "photos/tnh-zabota-los/07.jpg", "photos/tnh-zabota-los/08.jpg", "photos/tnh-zabota-los/09.jpg", "photos/tnh-zabota-los/10.jpg", "photos/tnh-zabota-los/11.jpg", "photos/tnh-zabota-los/12.jpg", "photos/tnh-zabota-los/13.jpg"]); },
 			videos: [],
 		},
 	},
@@ -264,7 +266,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "1 000 м²" },
 		],
 		media: {
-			photos: ["photos/tnh-zabota-rezervuary/01.jpg", "photos/tnh-zabota-rezervuary/02.jpg", "photos/tnh-zabota-rezervuary/03.jpg", "photos/tnh-zabota-rezervuary/04.jpg", "photos/tnh-zabota-rezervuary/05.jpg", "photos/tnh-zabota-rezervuary/06.jpg", "photos/tnh-zabota-rezervuary/07.jpg", "photos/tnh-zabota-rezervuary/08.jpg"],
+			get photos() { return photosFor("tnh-zabota-rezervuary", ["photos/tnh-zabota-rezervuary/01.jpg", "photos/tnh-zabota-rezervuary/02.jpg", "photos/tnh-zabota-rezervuary/03.jpg", "photos/tnh-zabota-rezervuary/04.jpg", "photos/tnh-zabota-rezervuary/05.jpg", "photos/tnh-zabota-rezervuary/06.jpg", "photos/tnh-zabota-rezervuary/07.jpg", "photos/tnh-zabota-rezervuary/08.jpg"]); },
 			videos: ["media/tnh-zabota-rezervuary/01.mp4"],
 		},
 	},
@@ -282,7 +284,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "738 м²" },
 		],
 		media: {
-			photos: ["photos/tnh-polimernaya-shishka/01.jpg", "photos/tnh-polimernaya-shishka/02.jpg", "photos/tnh-polimernaya-shishka/03.jpg", "photos/tnh-polimernaya-shishka/04.jpg", "photos/tnh-polimernaya-shishka/05.jpg", "photos/tnh-polimernaya-shishka/06.jpg"],
+			get photos() { return photosFor("tnh-polimernaya-shishka", ["photos/tnh-polimernaya-shishka/01.jpg", "photos/tnh-polimernaya-shishka/02.jpg", "photos/tnh-polimernaya-shishka/03.jpg", "photos/tnh-polimernaya-shishka/04.jpg", "photos/tnh-polimernaya-shishka/05.jpg", "photos/tnh-polimernaya-shishka/06.jpg"]); },
 			videos: ["media/tnh-polimernaya-shishka/01.mp4", "media/tnh-polimernaya-shishka/02.mp4"],
 		},
 	},
@@ -300,7 +302,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "151 м²" },
 		],
 		media: {
-			photos: ["photos/tnh-sotvorchestvo/01.jpg", "photos/tnh-sotvorchestvo/02.jpg", "photos/tnh-sotvorchestvo/03.jpg", "photos/tnh-sotvorchestvo/04.jpg"],
+			get photos() { return photosFor("tnh-sotvorchestvo", ["photos/tnh-sotvorchestvo/01.jpg", "photos/tnh-sotvorchestvo/02.jpg", "photos/tnh-sotvorchestvo/03.jpg", "photos/tnh-sotvorchestvo/04.jpg"]); },
 			videos: [],
 		},
 	},
@@ -318,7 +320,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "500 м²" },
 		],
 		media: {
-			photos: ["photos/kos-stihi-tukaya/01.jpg", "photos/kos-stihi-tukaya/02.jpg", "photos/kos-stihi-tukaya/03.jpg", "photos/kos-stihi-tukaya/04.jpg", "photos/kos-stihi-tukaya/05.jpg", "photos/kos-stihi-tukaya/06.jpg", "photos/kos-stihi-tukaya/07.jpg", "photos/kos-stihi-tukaya/08.jpg"],
+			get photos() { return photosFor("kos-stihi-tukaya", ["photos/kos-stihi-tukaya/01.jpg", "photos/kos-stihi-tukaya/02.jpg", "photos/kos-stihi-tukaya/03.jpg", "photos/kos-stihi-tukaya/04.jpg", "photos/kos-stihi-tukaya/05.jpg", "photos/kos-stihi-tukaya/06.jpg", "photos/kos-stihi-tukaya/07.jpg", "photos/kos-stihi-tukaya/08.jpg"]); },
 			videos: [],
 		},
 	},
@@ -336,7 +338,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "1 316 м²" },
 		],
 		media: {
-			photos: ["photos/kos-tulpany/01.jpg", "photos/kos-tulpany/02.jpg", "photos/kos-tulpany/03.jpg", "photos/kos-tulpany/04.jpg", "photos/kos-tulpany/05.jpg", "photos/kos-tulpany/06.jpg"],
+			get photos() { return photosFor("kos-tulpany", ["photos/kos-tulpany/01.jpg", "photos/kos-tulpany/02.jpg", "photos/kos-tulpany/03.jpg", "photos/kos-tulpany/04.jpg", "photos/kos-tulpany/05.jpg", "photos/kos-tulpany/06.jpg"]); },
 			videos: [],
 		},
 	},
@@ -354,7 +356,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "394 м²" },
 		],
 		media: {
-			photos: ["photos/kos-ognenniy-sokol/01.jpg", "photos/kos-ognenniy-sokol/02.jpg", "photos/kos-ognenniy-sokol/03.jpg", "photos/kos-ognenniy-sokol/04.jpg", "photos/kos-ognenniy-sokol/05.jpg", "photos/kos-ognenniy-sokol/06.jpg"],
+			get photos() { return photosFor("kos-ognenniy-sokol", ["photos/kos-ognenniy-sokol/01.jpg", "photos/kos-ognenniy-sokol/02.jpg", "photos/kos-ognenniy-sokol/03.jpg", "photos/kos-ognenniy-sokol/04.jpg", "photos/kos-ognenniy-sokol/05.jpg", "photos/kos-ognenniy-sokol/06.jpg"]); },
 			videos: [],
 		},
 	},
@@ -372,7 +374,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "700 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-portal-neftehimiyu/01.jpg", "photos/nknh-portal-neftehimiyu/02.jpg", "photos/nknh-portal-neftehimiyu/03.jpg", "photos/nknh-portal-neftehimiyu/04.jpg", "photos/nknh-portal-neftehimiyu/05.jpg", "photos/nknh-portal-neftehimiyu/06.jpg", "photos/nknh-portal-neftehimiyu/07.jpg", "photos/nknh-portal-neftehimiyu/08.jpg", "photos/nknh-portal-neftehimiyu/09.jpg", "photos/nknh-portal-neftehimiyu/10.jpg", "photos/nknh-portal-neftehimiyu/11.jpg"],
+			get photos() { return photosFor("nknh-portal-neftehimiyu", ["photos/nknh-portal-neftehimiyu/01.jpg", "photos/nknh-portal-neftehimiyu/02.jpg", "photos/nknh-portal-neftehimiyu/03.jpg", "photos/nknh-portal-neftehimiyu/04.jpg", "photos/nknh-portal-neftehimiyu/05.jpg", "photos/nknh-portal-neftehimiyu/06.jpg", "photos/nknh-portal-neftehimiyu/07.jpg", "photos/nknh-portal-neftehimiyu/08.jpg", "photos/nknh-portal-neftehimiyu/09.jpg", "photos/nknh-portal-neftehimiyu/10.jpg", "photos/nknh-portal-neftehimiyu/11.jpg"]); },
 			videos: [],
 		},
 	},
@@ -390,7 +392,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "90 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-sotvorenie-kauchuka/01.jpg"],
+			get photos() { return photosFor("nknh-sotvorenie-kauchuka", ["photos/nknh-sotvorenie-kauchuka/01.jpg"]); },
 			videos: [],
 		},
 	},
@@ -408,7 +410,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "270 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-put-kauchuka/01.jpg", "photos/nknh-put-kauchuka/02.jpg", "photos/nknh-put-kauchuka/03.jpg"],
+			get photos() { return photosFor("nknh-put-kauchuka", ["photos/nknh-put-kauchuka/01.jpg", "photos/nknh-put-kauchuka/02.jpg", "photos/nknh-put-kauchuka/03.jpg"]); },
 			videos: [],
 		},
 	},
@@ -426,7 +428,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "3 200 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-reki/01.jpg", "photos/nknh-reki/02.jpg", "photos/nknh-reki/03.jpg", "photos/nknh-reki/04.jpg", "photos/nknh-reki/05.jpg", "photos/nknh-reki/06.jpg", "photos/nknh-reki/07.jpg", "photos/nknh-reki/08.jpg", "photos/nknh-reki/09.jpg", "photos/nknh-reki/10.jpg", "photos/nknh-reki/11.jpg", "photos/nknh-reki/12.jpg", "photos/nknh-reki/13.jpg", "photos/nknh-reki/14.jpg"],
+			get photos() { return photosFor("nknh-reki", ["photos/nknh-reki/01.jpg", "photos/nknh-reki/02.jpg", "photos/nknh-reki/03.jpg", "photos/nknh-reki/04.jpg", "photos/nknh-reki/05.jpg", "photos/nknh-reki/06.jpg", "photos/nknh-reki/07.jpg", "photos/nknh-reki/08.jpg", "photos/nknh-reki/09.jpg", "photos/nknh-reki/10.jpg", "photos/nknh-reki/11.jpg", "photos/nknh-reki/12.jpg", "photos/nknh-reki/13.jpg", "photos/nknh-reki/14.jpg"]); },
 			videos: ["media/nknh-reki/01.mp4"],
 		},
 	},
@@ -444,7 +446,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "600 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-avtobus/01.jpg"],
+			get photos() { return photosFor("nknh-avtobus", ["photos/nknh-avtobus/01.jpg"]); },
 			videos: [],
 		},
 	},
@@ -462,7 +464,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "347 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-nasledie-mendeleeva/01.jpg", "photos/nknh-nasledie-mendeleeva/02.jpg", "photos/nknh-nasledie-mendeleeva/03.jpg", "photos/nknh-nasledie-mendeleeva/04.jpg", "photos/nknh-nasledie-mendeleeva/05.jpg", "photos/nknh-nasledie-mendeleeva/06.jpg", "photos/nknh-nasledie-mendeleeva/07.jpg", "photos/nknh-nasledie-mendeleeva/08.jpg", "photos/nknh-nasledie-mendeleeva/09.jpg"],
+			get photos() { return photosFor("nknh-nasledie-mendeleeva", ["photos/nknh-nasledie-mendeleeva/01.jpg", "photos/nknh-nasledie-mendeleeva/02.jpg", "photos/nknh-nasledie-mendeleeva/03.jpg", "photos/nknh-nasledie-mendeleeva/04.jpg", "photos/nknh-nasledie-mendeleeva/05.jpg", "photos/nknh-nasledie-mendeleeva/06.jpg", "photos/nknh-nasledie-mendeleeva/07.jpg", "photos/nknh-nasledie-mendeleeva/08.jpg", "photos/nknh-nasledie-mendeleeva/09.jpg"]); },
 			videos: [],
 		},
 	},
@@ -480,7 +482,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "776,95 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-rmz/01.jpg", "photos/nknh-rmz/02.jpg", "photos/nknh-rmz/03.jpg"],
+			get photos() { return photosFor("nknh-rmz", ["photos/nknh-rmz/01.jpg", "photos/nknh-rmz/02.jpg", "photos/nknh-rmz/03.jpg"]); },
 			videos: [],
 		},
 	},
@@ -498,7 +500,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "402 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-kod-proizvodstva/01.jpg", "photos/nknh-kod-proizvodstva/02.jpg", "photos/nknh-kod-proizvodstva/03.jpg", "photos/nknh-kod-proizvodstva/04.jpg", "photos/nknh-kod-proizvodstva/05.jpg"],
+			get photos() { return photosFor("nknh-kod-proizvodstva", ["photos/nknh-kod-proizvodstva/01.jpg", "photos/nknh-kod-proizvodstva/02.jpg", "photos/nknh-kod-proizvodstva/03.jpg", "photos/nknh-kod-proizvodstva/04.jpg", "photos/nknh-kod-proizvodstva/05.jpg"]); },
 			videos: [],
 		},
 	},
@@ -516,7 +518,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "146 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-geksen/01.jpg", "photos/nknh-geksen/02.jpg", "photos/nknh-geksen/03.jpg", "photos/nknh-geksen/04.jpg", "photos/nknh-geksen/05.jpg", "photos/nknh-geksen/06.jpg", "photos/nknh-geksen/07.jpg", "photos/nknh-geksen/08.jpg", "photos/nknh-geksen/09.jpg", "photos/nknh-geksen/10.jpg", "photos/nknh-geksen/11.jpg", "photos/nknh-geksen/12.jpg", "photos/nknh-geksen/13.jpg", "photos/nknh-geksen/14.jpg", "photos/nknh-geksen/15.jpg"],
+			get photos() { return photosFor("nknh-geksen", ["photos/nknh-geksen/01.jpg", "photos/nknh-geksen/02.jpg", "photos/nknh-geksen/03.jpg", "photos/nknh-geksen/04.jpg", "photos/nknh-geksen/05.jpg", "photos/nknh-geksen/06.jpg", "photos/nknh-geksen/07.jpg", "photos/nknh-geksen/08.jpg", "photos/nknh-geksen/09.jpg", "photos/nknh-geksen/10.jpg", "photos/nknh-geksen/11.jpg", "photos/nknh-geksen/12.jpg", "photos/nknh-geksen/13.jpg", "photos/nknh-geksen/14.jpg", "photos/nknh-geksen/15.jpg"]); },
 			videos: ["media/nknh-geksen/01.mp4", "media/nknh-geksen/02.mp4"],
 		},
 	},
@@ -534,7 +536,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "406 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-formula-kachestva/01.jpg", "photos/nknh-formula-kachestva/02.jpg", "photos/nknh-formula-kachestva/03.jpg"],
+			get photos() { return photosFor("nknh-formula-kachestva", ["photos/nknh-formula-kachestva/01.jpg", "photos/nknh-formula-kachestva/02.jpg", "photos/nknh-formula-kachestva/03.jpg"]); },
 			videos: [],
 		},
 	},
@@ -552,7 +554,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "2 419 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-formula-dvizheniya/01.jpg", "photos/nknh-formula-dvizheniya/02.jpg", "photos/nknh-formula-dvizheniya/03.jpg", "photos/nknh-formula-dvizheniya/04.jpg", "photos/nknh-formula-dvizheniya/05.jpg", "photos/nknh-formula-dvizheniya/06.jpg", "photos/nknh-formula-dvizheniya/07.jpg", "photos/nknh-formula-dvizheniya/08.jpg", "photos/nknh-formula-dvizheniya/09.jpg", "photos/nknh-formula-dvizheniya/10.jpg"],
+			get photos() { return photosFor("nknh-formula-dvizheniya", ["photos/nknh-formula-dvizheniya/01.jpg", "photos/nknh-formula-dvizheniya/02.jpg", "photos/nknh-formula-dvizheniya/03.jpg", "photos/nknh-formula-dvizheniya/04.jpg", "photos/nknh-formula-dvizheniya/05.jpg", "photos/nknh-formula-dvizheniya/06.jpg", "photos/nknh-formula-dvizheniya/07.jpg", "photos/nknh-formula-dvizheniya/08.jpg", "photos/nknh-formula-dvizheniya/09.jpg", "photos/nknh-formula-dvizheniya/10.jpg"]); },
 			videos: [],
 		},
 	},
@@ -570,7 +572,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "360 м²" },
 		],
 		media: {
-			photos: ["photos/nknh-garmoniya/01.jpg", "photos/nknh-garmoniya/02.jpg", "photos/nknh-garmoniya/03.jpg", "photos/nknh-garmoniya/04.jpg", "photos/nknh-garmoniya/05.jpg", "photos/nknh-garmoniya/06.jpg"],
+			get photos() { return photosFor("nknh-garmoniya", ["photos/nknh-garmoniya/01.jpg", "photos/nknh-garmoniya/02.jpg", "photos/nknh-garmoniya/03.jpg", "photos/nknh-garmoniya/04.jpg", "photos/nknh-garmoniya/05.jpg", "photos/nknh-garmoniya/06.jpg"]); },
 			videos: [],
 		},
 	},
@@ -588,7 +590,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "2 500 м²" },
 		],
 		media: {
-			photos: ["photos/nvgpz-oberegi-yugry/01.jpg", "photos/nvgpz-oberegi-yugry/02.jpg", "photos/nvgpz-oberegi-yugry/03.jpg", "photos/nvgpz-oberegi-yugry/04.jpg", "photos/nvgpz-oberegi-yugry/05.jpg", "photos/nvgpz-oberegi-yugry/06.jpg", "photos/nvgpz-oberegi-yugry/07.jpg", "photos/nvgpz-oberegi-yugry/08.jpg", "photos/nvgpz-oberegi-yugry/09.jpg", "photos/nvgpz-oberegi-yugry/10.jpg", "photos/nvgpz-oberegi-yugry/11.jpg"],
+			get photos() { return photosFor("nvgpz-oberegi-yugry", ["photos/nvgpz-oberegi-yugry/01.jpg", "photos/nvgpz-oberegi-yugry/02.jpg", "photos/nvgpz-oberegi-yugry/03.jpg", "photos/nvgpz-oberegi-yugry/04.jpg", "photos/nvgpz-oberegi-yugry/05.jpg", "photos/nvgpz-oberegi-yugry/06.jpg", "photos/nvgpz-oberegi-yugry/07.jpg", "photos/nvgpz-oberegi-yugry/08.jpg", "photos/nvgpz-oberegi-yugry/09.jpg", "photos/nvgpz-oberegi-yugry/10.jpg", "photos/nvgpz-oberegi-yugry/11.jpg"]); },
 			videos: [],
 		},
 	},
@@ -606,7 +608,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "2 600 м²" },
 		],
 		media: {
-			photos: ["photos/vgpz-severnoe-siyanie/01.jpg", "photos/vgpz-severnoe-siyanie/02.jpg", "photos/vgpz-severnoe-siyanie/03.jpg"],
+			get photos() { return photosFor("vgpz-severnoe-siyanie", ["photos/vgpz-severnoe-siyanie/01.jpg", "photos/vgpz-severnoe-siyanie/02.jpg", "photos/vgpz-severnoe-siyanie/03.jpg"]); },
 			videos: [],
 		},
 	},
@@ -624,7 +626,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "2 135 м²" },
 		],
 		media: {
-			photos: ["photos/aghk-batiskaf/01.jpg", "photos/aghk-batiskaf/02.jpg", "photos/aghk-batiskaf/03.jpg", "photos/aghk-batiskaf/04.jpg", "photos/aghk-batiskaf/05.jpg", "photos/aghk-batiskaf/06.jpg", "photos/aghk-batiskaf/07.jpg", "photos/aghk-batiskaf/08.jpg"],
+			get photos() { return photosFor("aghk-batiskaf", ["photos/aghk-batiskaf/01.jpg", "photos/aghk-batiskaf/02.jpg", "photos/aghk-batiskaf/03.jpg", "photos/aghk-batiskaf/04.jpg", "photos/aghk-batiskaf/05.jpg", "photos/aghk-batiskaf/06.jpg", "photos/aghk-batiskaf/07.jpg", "photos/aghk-batiskaf/08.jpg"]); },
 			videos: ["media/aghk-batiskaf/01.mp4"],
 		},
 	},
@@ -642,7 +644,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "1 227 м²" },
 		],
 		media: {
-			photos: ["photos/aghk-tochka-sinergii/01.jpg", "photos/aghk-tochka-sinergii/02.jpg", "photos/aghk-tochka-sinergii/03.jpg", "photos/aghk-tochka-sinergii/04.jpg", "photos/aghk-tochka-sinergii/05.jpg", "photos/aghk-tochka-sinergii/06.jpg", "photos/aghk-tochka-sinergii/07.jpg", "photos/aghk-tochka-sinergii/08.jpg", "photos/aghk-tochka-sinergii/09.jpg", "photos/aghk-tochka-sinergii/10.jpg", "photos/aghk-tochka-sinergii/11.jpg"],
+			get photos() { return photosFor("aghk-tochka-sinergii", ["photos/aghk-tochka-sinergii/01.jpg", "photos/aghk-tochka-sinergii/02.jpg", "photos/aghk-tochka-sinergii/03.jpg", "photos/aghk-tochka-sinergii/04.jpg", "photos/aghk-tochka-sinergii/05.jpg", "photos/aghk-tochka-sinergii/06.jpg", "photos/aghk-tochka-sinergii/07.jpg", "photos/aghk-tochka-sinergii/08.jpg", "photos/aghk-tochka-sinergii/09.jpg", "photos/aghk-tochka-sinergii/10.jpg", "photos/aghk-tochka-sinergii/11.jpg"]); },
 			videos: ["media/aghk-tochka-sinergii/01.mp4"],
 		},
 	},
@@ -660,7 +662,7 @@ export const ART_OBJECTS: readonly ArtObject[] = [
 			{ label: "Площадь", value: "400 м²" },
 		],
 		media: {
-			photos: ["photos/vsk-put-molekuly/01.jpg", "photos/vsk-put-molekuly/02.jpg", "photos/vsk-put-molekuly/03.jpg", "photos/vsk-put-molekuly/04.jpg", "photos/vsk-put-molekuly/05.jpg", "photos/vsk-put-molekuly/06.jpg", "photos/vsk-put-molekuly/07.jpg", "photos/vsk-put-molekuly/08.jpg"],
+			get photos() { return photosFor("vsk-put-molekuly", ["photos/vsk-put-molekuly/01.jpg", "photos/vsk-put-molekuly/02.jpg", "photos/vsk-put-molekuly/03.jpg", "photos/vsk-put-molekuly/04.jpg", "photos/vsk-put-molekuly/05.jpg", "photos/vsk-put-molekuly/06.jpg", "photos/vsk-put-molekuly/07.jpg", "photos/vsk-put-molekuly/08.jpg"]); },
 			videos: ["media/vsk-put-molekuly/01.mp4"],
 		},
 	},

@@ -1,0 +1,60 @@
+# Выкладка фото на боевой сайт после Merge в main. Копирует только
+# photos/ с индексом (сайт читает его при загрузке, см. src/data/photoIndex.ts)
+# — без сборки: @sibur/* здесь недоступны, код и видео выкладывает владелец
+# со своей машины (prototype/deploy-prod.sh).
+#
+# В photos/.source остаётся коммит зеркала: deploy-prod.sh по нему откажется
+# выкладывать, пока рабочая линия не забрала эти фото (sync-github-mirror.sh pull).
+name: Фото — выкладка на сайт
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - prototype/public/photos/**
+      - prototype/scripts/final-content-manifest.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: photos-deploy
+
+env:
+  HOST: 194.58.118.240
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Проверка фото
+        run: node prototype/scripts/check-photos-pr.mjs
+
+      - name: Индекс фото
+        run: |
+          node prototype/scripts/build-objects-ts.mjs --index-only
+          echo "$GITHUB_SHA" > prototype/public/photos/.source
+
+      - name: Выкладка
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.ARTNAZAVOD_SSH_PROD }}" > ~/.ssh/key && chmod 600 ~/.ssh/key
+          echo "${{ secrets.ARTNAZAVOD_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          rsync -rc --delete --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/key" prototype/public/photos/ "root@$HOST:./"
+
+      - name: Сайт отдаёт новый индекс
+        run: |
+          curl -sf "http://$HOST/photos/index.json" -o served.json
+          cmp served.json prototype/public/photos/index.json
+          first=$(node -e 'const i=require("./served.json");console.log(Object.values(i)[0][0])')
+          code=$(curl -s -o /dev/null -w '%{http_code}' "http://$HOST/$first")
+          [ "$code" = 200 ] || { echo "$first: $code"; exit 1; }
+          echo "Готово: http://$HOST/"

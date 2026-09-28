@@ -17,6 +17,24 @@ HOST=root@194.58.118.240
 REMOTE_DIR=/var/www/artnazavod
 LOCAL_PROJECT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+echo "==> Фото, выложенные из GitHub-зеркала, уже в рабочей линии?"
+# CI зеркала выкладывает фото коллег сам (.github/workflows/photos-deploy.yml)
+# и оставляет в photos/.source коммит зеркала. rsync --delete ниже молча
+# откатил бы их, если рабочая линия их ещё не забрала.
+cd "$LOCAL_PROJECT"
+SOURCE=$(ssh -i "$SSH_KEY" -o BatchMode=yes "$HOST" "cat $REMOTE_DIR/photos/.source 2>/dev/null" || true)
+if [ -n "$SOURCE" ]; then
+  if git cat-file -e "$SOURCE^{commit}" 2>/dev/null && {
+      git merge-base --is-ancestor "$SOURCE" github-main 2>/dev/null ||
+      git log --format='%(trailers:key=Mirror-Pulled,valueonly)' | grep -qx "$SOURCE"; }; then
+    echo "    да (${SOURCE:0:7})"
+  else
+    echo "    НЕТ: на сайте фото из зеркала ${SOURCE:0:7}, которых нет здесь."
+    echo "    Сначала: GITHUB_TOKEN=... ../tools/sync-github-mirror.sh pull"
+    exit 1
+  fi
+fi
+
 echo "==> Локальная сборка (vite build)"
 cd "$LOCAL_PROJECT"
 NODE_EXTRA_CA_CERTS="${NODE_EXTRA_CA_CERTS:-$HOME/Documents/sibur-dev-vpn/devrootca.crt}" npm run build
@@ -29,8 +47,12 @@ rsync -az --delete \
 echo "==> Конфигурация nginx (единственный источник — файл в репозитории)"
 scp -i "$SSH_KEY" -o BatchMode=yes "$LOCAL_PROJECT/deploy/nginx-artnazavod.conf" "$HOST:/etc/nginx/sites-available/artnazavod"
 
+echo "==> Шлюз для ключей CI зеркала (deploy/content-gate.sh)"
+scp -i "$SSH_KEY" -o BatchMode=yes "$LOCAL_PROJECT/deploy/content-gate.sh" "$HOST:/usr/local/bin/artnazavod-content-gate"
+
 echo "==> Права и перезагрузка конфигурации"
 ssh -i "$SSH_KEY" -o BatchMode=yes "$HOST" "
+  chmod 755 /usr/local/bin/artnazavod-content-gate &&
   find $REMOTE_DIR -type d -exec chmod 755 {} + &&
   find $REMOTE_DIR -type f -exec chmod 644 {} + &&
   nginx -t && systemctl reload nginx

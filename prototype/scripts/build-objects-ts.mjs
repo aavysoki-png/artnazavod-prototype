@@ -3,19 +3,28 @@
 // (заполняются prepare-final-media.mjs). Файл — не рантайм-fetch: Vite
 // fs.allow не отдаёт файлы вне src/, поэтому итог — обычный TS-модуль,
 // импортируемый как код, просто пишется скриптом, а не руками.
+//
+// Кроме того пишет public/photos/index.json — списки фото, которые сайт
+// читает при загрузке (src/data/photoIndex.ts): так выкладка фото из
+// GitHub-зеркала обходится без пересборки. `--index-only` — только индекс,
+// objects.ts не трогать: в зеркале нет видео, и он сгенерировался бы без них.
+//
+//   node scripts/build-objects-ts.mjs               # objects.ts + индекс
+//   node scripts/build-objects-ts.mjs --index-only  # только индекс (npm run build, CI зеркала)
 
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const prototypeRoot = path.resolve(__dirname, '..');
+const indexOnly = process.argv.includes('--index-only');
 const manifest = JSON.parse(readFileSync(path.join(__dirname, 'final-content-manifest.json'), 'utf8'));
 
 function listOutputFiles(dir) {
 	try {
 		return readdirSync(dir)
-			.filter((f) => !f.startsWith('.'))
+			.filter((f) => !f.startsWith('.') && f !== 'index.json')
 			.sort((a, b) => a.localeCompare(b, 'en'));
 	} catch {
 		return [];
@@ -39,6 +48,20 @@ const entries = manifest.objects.map((o) => {
 	return { ...o, photos, videos, facts: o.facts ?? [] };
 });
 
+const photosDir = path.join(prototypeRoot, 'public', 'photos');
+mkdirSync(photosDir, { recursive: true });
+const photoIndex = Object.fromEntries(entries.map((e) => [e.slug, e.photos]));
+writeFileSync(path.join(photosDir, 'index.json'), JSON.stringify(photoIndex, null, '\t') + '\n', 'utf8');
+
+const noMedia = entries.filter((e) => e.photos.length === 0);
+if (noMedia.length > 0) {
+	console.warn('Внимание — объекты без фото (проверь public/photos/<slug>/):', noMedia.map((e) => e.slug));
+}
+if (indexOnly) {
+	console.log(`Записан индекс фото: ${entries.length} объектов, ${entries.reduce((n, e) => n + e.photos.length, 0)} фото`);
+	process.exit(0);
+}
+
 const lines = [];
 lines.push('/**');
 lines.push(' * Реестр объектов «АртНаЗавод» — финальная фактура заказчика (2026-08-20).');
@@ -53,6 +76,8 @@ lines.push(' *');
 lines.push(' * Объекты без найденной папки с фото у заказчика в эту версию не вошли —');
 lines.push(' * см. `excludedNoFolder` в манифесте.');
 lines.push(' */');
+lines.push('');
+lines.push("import { photosFor } from './photoIndex';");
 lines.push('');
 lines.push('export interface ArtObjectMedia {');
 lines.push('\treadonly photos: readonly string[];');
@@ -93,7 +118,9 @@ for (const e of entries) {
 	}
 	lines.push('\t\t],');
 	lines.push('\t\tmedia: {');
-	lines.push(`\t\t\tphotos: [${e.photos.map(tsString).join(', ')}],`);
+	// Геттер, а не значение: индекс фото приходит при загрузке страницы
+	// (photoIndex.ts), вшитый список — запасной.
+	lines.push(`\t\t\tget photos() { return photosFor(${tsString(e.slug)}, [${e.photos.map(tsString).join(', ')}]); },`);
 	lines.push(`\t\t\tvideos: [${e.videos.map(tsString).join(', ')}],`);
 	lines.push('\t\t},');
 	lines.push('\t},');
@@ -150,8 +177,4 @@ lines.push('');
 
 writeFileSync(path.join(prototypeRoot, 'src', 'data', 'objects.ts'), lines.join('\n'), 'utf8');
 
-const noMedia = entries.filter((e) => e.photos.length === 0);
-console.log(`Записано ${entries.length} объектов в src/data/objects.ts`);
-if (noMedia.length > 0) {
-	console.warn('Внимание — объекты без фото (проверь public/photos/<slug>/):', noMedia.map((e) => e.slug));
-}
+console.log(`Записано ${entries.length} объектов в src/data/objects.ts и индекс фото`);

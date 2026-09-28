@@ -1302,3 +1302,32 @@ pull` (забирает только `public/photos` и манифест, пер
 коммитит с трейлером `Mirror-Pulled`) → `npm run build && ./deploy-prod.sh`
 → `tools/sync-github-mirror.sh push`. push откажется, если в зеркале есть
 несмерженные в рабочую линию коммиты.
+
+## Сессия 2026-09-28 — фото коллег выкладываются без владельца
+
+Задача пользователя: коллега делает всё сама, от него — только посмотреть
+и нажать Merge. Решение (вариант 1 из двух): фото больше не требуют сборки.
+
+- `build-objects-ts.mjs` пишет ещё `public/photos/index.json` (gitignored,
+  генерируется в `npm run build` через `--index-only`); `objects.ts` отдаёт
+  `media.photos` геттером `photosFor(slug, вшитые)` из `src/data/photoIndex.ts`;
+  `main.tsx` ждёт индекс (≤3 с, без ошибок) и только потом рендерит.
+  Проверено на prod-сборке в headless: индекс изменён без сборки → карточка
+  показывает новый порядок; индекса нет → вшитый список.
+- CI зеркала: `.github/workflows/photos-pr.yml` (проверка
+  `scripts/check-photos-pr.mjs` + превью `http://artnazavod.sibur.ru/preview/pr-N/`,
+  ссылка комментарием) и `photos-deploy.yml` (после Merge rsync `photos/` на
+  боевой, пишет `photos/.source`). `.github/` живёт в рабочей линии, иначе
+  `sync push` стёр бы его в зеркале.
+- Сервер: ключи CI — forced command `deploy/content-gate.sh`
+  (`/usr/local/bin/artnazavod-content-gate`, ставит deploy-prod.sh): prod —
+  только rrsync в `photos/`, preview — open/close/rsync в
+  `/var/www/preview/pr-N/photos`. nginx из `photos/` отдаёт только jpg/json.
+- `deploy-prod.sh` отказывается выкладывать, если `photos/.source` на сервере
+  не забран в рабочую линию (нет в `github-main` и в трейлерах Mirror-Pulled).
+- `PHOTOS.md`: шаг 8 (дождаться проверки, чинить по логу, отдать ссылку на превью).
+
+Осталось (внешние шаги, ждут подтверждения): деплой нового бандла+nginx+шлюза,
+два ключа в authorized_keys, секреты в GitHub (ARTNAZAVOD_SSH_PREVIEW,
+ARTNAZAVOD_SSH_PROD, ARTNAZAVOD_KNOWN_HOSTS), коммит, пуш в зеркало,
+сквозной тест тестовым PR.

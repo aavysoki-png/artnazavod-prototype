@@ -10,10 +10,16 @@ import '@sibur/design-tokens/css/iconfont/iconfont.css';
 import '@sibur/design-tokens/css/font-face.css';
 
 import App from './App';
+import { loadPhotoIndex } from './data/photoIndex';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-	<StrictMode>
-		<App />
-	</StrictMode>,
-);
+// Сначала индекс фото (обновляется без пересборки, см. photoIndex.ts), потом
+// рендер: иначе карточки мелькнули бы вшитыми фото и перерисовались.
+// loadPhotoIndex не бросает и ждёт не дольше 3 с.
+loadPhotoIndex().then(() => {
+	createRoot(document.getElementById('root')!).render(
+		<StrictMode>
+			<App />
+		</StrictMode>,
+	);
+});
